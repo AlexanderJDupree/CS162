@@ -15,12 +15,14 @@
 
 void fillRandArray(int randAra[]);
 // Fills the array with random integers from 0 - 99.
+
 void computeSum(const int ara[], int &sum);
 void computeAvg(const int ara[], float &avg);
 void selectionSort(int ara[], int araSize, bool ascending = true);
 // SelectionSort sorts an array recursively into ascending order by default.
 // This can be changed to descending order by an adding the argument 'false' in
 // the function call.
+
 void getInput(int &input);
 void printArray(const int ara[]);
 void printChoices();
@@ -28,6 +30,7 @@ void printError();
 // Prints error message and calls resetInputStream(). This prevents the user
 // from entering a character instead of an integer and putting the program into
 // an infinite loop.
+
 void resetInputStream();
 template <class T> void printAnswer(T ans, std::string header);
 // Use of a template here so the answer parameter can be of different data
@@ -77,6 +80,7 @@ int main()
             case 6: selectionSort(randAra, SIZE, false);
                     printArray(randAra);
                     break;
+            case 7: break;
             default: printError();
         }
     } while(userInput != 7);
@@ -128,7 +132,8 @@ void selectionSort(int ara[], int araSize, bool ascending)
     {
         index = findSmallest(ara, araSize);
     }
-
+    
+    // Swap the largest (Or smallest) element with the last element in the array
     int temp = ara[index];
     ara[index] = ara[araSize - 1];
     ara[araSize - 1] = temp;
