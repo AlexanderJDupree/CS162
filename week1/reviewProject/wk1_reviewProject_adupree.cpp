@@ -1,11 +1,17 @@
 /*******************************************************************************
 * File: reviewProjectDriver.cpp
-* Description: review project sets uses my RandArray library to create an array
+*
+* Description: review project makes use of my Random library to create an array
 *              of 20 unique integers from 1-40. It then prints and interface 
 *              for the user to interact with that array with limited options.
+*
 * Author: Alexander DuPree
+*
 * Compiler:  GNU GCC 5.4.0
+*
 * Date: 2018-04-05
+*
+* Modifications:
 *******************************************************************************/
 
 #include <iostream>
@@ -13,19 +19,36 @@
 #include "RandArray.h"
 
 void printChoices();
+// Displays interface for user to interact with the array
+
 void printError();
+// Displays an error message, used for invalid input.
+
 void resetInputStream();
+// resets the input stream and discards invalid characters
+
 void getInput(int& input);
+// Grabs modifies referenced int with the value inputted at the keyboard
+
 void printAra(const int ara[], const int SIZE, std::string text);
+// Displays text caption and then loops through the array, printing each element
+
 void copyAra(const int ara1[], int ara2[], int SIZE);
+// Loops through ara1 and copies it contents into ara2
+
 void bubbleSort(int ara[], int SIZE);
+// Recursively bubble sorts ara into ascending order
+
 void printIndex(int ara[], int index, std::string text);
 // Prints the element at ara[index]. To get the 'median' value we need to run 
 // the array through bubbleSort() first then give it the median index. 
+
 void guessNumber(const int ara[], int SIZE);
 // Gives the user a range to guess from and loops until user enters a number 
 // exists in the array.
+
 bool checkGuess(const int ara[], int SIZE, int guess);
+// Loops through ara, if guess matches any value in ara returns true
 
 int main()
 {
@@ -33,8 +56,13 @@ int main()
     int randAra[SIZE];
     int sortedAra[SIZE];
     int input;
+    
+    Random<int> randomizer;
+    // Instantiate Randomizer object
+    
+    randomizer.fillUnique(randAra, 40, 1, SIZE);
+    // Fills the array with random unique integers
 
-    Random::fillUnique(randAra, 40, 1, SIZE);
     copyAra(randAra, sortedAra, SIZE);
     bubbleSort(sortedAra, SIZE);
 
@@ -141,7 +169,7 @@ void guessNumber(const int ara[], int SIZE)
     int guess = -1;
     // set guess to -1 for data validation purposes.
     
-    std::cout << "Pick a number between " << ara[0] << " - " << ara[-1] 
+    std::cout << "Pick a number between " << ara[0] << " - " << ara[SIZE-1] 
               << " and I'll tell you if it's in the array." << std::endl;
     do {
         std::cout << "> ";
@@ -151,7 +179,7 @@ void guessNumber(const int ara[], int SIZE)
             std::cout << "\nInvalid number" << std::endl;
             resetInputStream();
         }
-        else if (guess == ara[0] || guess == ara[-1])
+        else if (guess == ara[0] || guess == ara[SIZE-1])
         {
             std::cout << "\nYou can't use that number, I gave it to you.\n";
         }
