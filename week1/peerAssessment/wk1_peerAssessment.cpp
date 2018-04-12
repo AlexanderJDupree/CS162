@@ -9,11 +9,13 @@
 * Compiler:  GNU GCC 5.4.0
 *
 * Date: 2018-04-11
+*
+* Modifications:
+*
 *******************************************************************************/
 
-#include <iostream> // cout, endl, cin
-#include <string>   // std::string
-#include <cstdlib>  // atoi
+#include <iostream>
+#include <string>
 
 int getInt(std::string errorMsg);
 // Prints instructions to console, attempts to catch input into a declared 
@@ -43,16 +45,19 @@ bool isValidInput(std::string errorMsg);
 
 int main() 
 {
+    // Declarations
     int num1;
     float num2;
     char symbol;
     std::string text;
 
+    // Input 
     num1 = getInt("Invalid input. Enter an integer.");
     num2 = getFloat("Invalid input. Enter a float.");
     symbol = getChar("Invalid input. Enter a character");
     text = getString("Invalid input. Enter a string.");
 
+    // Output
     echoInput(num1, num2, symbol, text);
     
     return 0;
@@ -73,7 +78,8 @@ int getInt(std::string errorMsg)
     // Loop until input is valid
     
     resetInputStream();
-    // If the user entered a float, those characters are left in the stream
+    // If the user entered an int followed by arbitrary characters those will be
+    // left in the stream. So we have to flush the stream again. 
 
     return input;
 }
@@ -101,6 +107,7 @@ char getChar(std::string errorMsg)
     
     std::cout << "Please enter a single character. (If you enter more than one,"
               << " only the first character will be kept.)" << std::endl;
+
     resetInputStream();
     do {
         std::cout << ">  ";
@@ -131,7 +138,7 @@ std::string getString(std::string errorMsg)
 
 void echoInput(int num1, float num2, char symbol, std::string text)
 {
-    std::cout << "You entered:\n  Integer:\t" << num1 << "\n  Float:\t" << num2
+    std::cout << "\nYou entered:\n  Integer:\t" << num1 << "\n  Float:\t" <<num2
               << "\n  Char:\t\t'" << symbol << '\'' << "\nAnd your string:\n"
               << "\t\"" << text << '"' << std::endl;
     return;
@@ -143,13 +150,16 @@ void resetInputStream()
     std::cin.clear();
     // discard bad characters 
     std::cin.ignore(100, '\n');
+    // An arbitrary number is used here to discard characters in the stream. 
+    // We should be using std::numeric_limits<streamsize>::max() to completely 
+    // flush the stream. However, that has not been covered in class yet.
 
     return;
 }
 
 bool isValidInput(std::string errorMsg)
 {
-    // stream failed to catch input and is set to a failed state
+    // stream failed to catch input and is in a failed state
     if (std::cin.fail()) 
     {
         std::cout << errorMsg << std::endl;
