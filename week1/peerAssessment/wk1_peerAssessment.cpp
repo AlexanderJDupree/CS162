@@ -2,7 +2,8 @@
 * File: wk1_peerAssessment.cpp
 *
 * Description: Program to demonstrate the use of loops to validate input of 
-*              different data types
+*              different data types. All data types, functions and methods have
+*              been discussed either in class or in required textbook readings.
 *
 * Author: Alexander DuPree
 *
@@ -27,10 +28,13 @@ float getFloat(std::string errorMsg);
 
 char getChar(std::string errorMsg);
 // Prints instructions to console and catches the first character inserted.
+// We use a do-while loop, even though it is unnecessary, in the unlikely
+// scenario keyboard input isn't recognized as a character.
 
-std::string getString(std::string text);
+std::string getString(std::string errorMsg);
 // Prints instructions to console and uses getline to grab all characters until
-// the newline character
+// the newline character. do-while loop is implemented here again in the 
+// unlikely chance the characters fail to be stored in the input variable.
 
 void echoInput(int num1, float num2, char symbol, std::string text);
 // Prints to console each of the data inputs the user entered. 
@@ -42,6 +46,24 @@ bool isValidInput(std::string errorMsg);
 // Uses the boolean attribute of a streams failed state to determine if input
 // was successful. If stream is in a failed state we print out the errorMsg and
 // call resetInputStream().
+
+bool isNumber(const std::string& input);
+// Loops through the input string checking for invalid characters. Then we loop
+// through the invalid characters for exception cases. I.E. a negative float is 
+// allowed one '-' and '.' character despite it not being a numerical character.
+// If all characters are allowed and or exceptional we return true. 
+
+int convertToInt(const std::string& input);
+// Loops through VALIDATED input string and builds an integer by taking
+// advantage of a encoding offset. I.E. the characters '0' - '9' are 48 - 57 on 
+// the ASCII and UTF-8 tables. This means we can take each character from the 
+// input string and minus 48 from it and get the represented integer.
+
+float convertToFloat(const std::string&input);
+// Takes in a VALIDATED input string and follows the converToInt() algorithim 
+// except it also keeps track of decimal places after the '.' character and then
+// integrates the correct number of decimal digits into the number before 
+// returning it.
 
 int main() 
 {
@@ -65,50 +87,66 @@ int main()
 
 int getInt(std::string errorMsg)
 {
-    int input;
-    // Declare variable to catch input
+    int num;
+    std::string input;
+    // string used for data validation 
 
     std::cout << "Please enter an integer. (If you enter a decimal, your input"
               << " will be rounded down.)" << std::endl;
    
-    do {
+    while (true)
+    {
         std::cout << ">  ";
-        std::cin >> input;
-    } while (!isValidInput(errorMsg));
-    // Loop until input is valid
-    
-    resetInputStream();
-    // If the user entered an int followed by arbitrary characters those will be
-    // left in the stream. So we have to flush the stream again. 
+        std::getline(std::cin, input);
 
-    return input;
+        if (isNumber(input)) { break; }
+        else 
+        {
+            std::cout << errorMsg << std::endl;
+        }
+    }
+    // Loop until input is valid then break.
+    
+    num = convertToInt(input);
+
+    return num;
 }
 
 float getFloat(std::string errorMsg)
 {
-    float input;
-    // Declare variable to catch input
+    float num;
+    std::string input;
+    // string used for data validation 
 
-    std::cout << "Please enter a floating point number." << std::endl;
+
+    std::cout << "\nPlease enter a floating point number." << std::endl;
    
-    do {
+    while (true)
+    {
         std::cout << ">  ";
-        std::cin >> input;
-    } while (!isValidInput(errorMsg));
-    // Loop until input is valid
+        std::getline(std::cin, input);
 
-    return input;
+        if (isNumber(input)) { break; }
+        else 
+        {
+            std::cout << errorMsg << std::endl;
+        }
+    }
+    // Loop until input is valid then break.
+    
+    num = convertToFloat(input);
+
+    return num;
 }
 
 char getChar(std::string errorMsg)
 {
-    char input = '\0';
+    char input;
     // Declare variable to catch input
     
-    std::cout << "Please enter a single character. (If you enter more than one,"
-              << " only the first character will be kept.)" << std::endl;
+    std::cout << "\nPlease enter a single character. (If you enter more than "
+              << "one, only the first character will be stored.)" << std::endl;
 
-    resetInputStream();
     do {
         std::cout << ">  ";
         std::cin.get(input);
@@ -125,7 +163,7 @@ std::string getString(std::string errorMsg)
     std::string input;
     // Declare variable to catch input
     
-    std::cout << "Please enter a string of characters, or just one. Up to you."
+    std::cout << "\nPlease enter a string of characters, or just one. Up to you."
               << std::endl;
     
     do {
@@ -150,9 +188,6 @@ void resetInputStream()
     std::cin.clear();
     // discard bad characters 
     std::cin.ignore(100, '\n');
-    // An arbitrary number is used here to discard characters in the stream. 
-    // We should be using std::numeric_limits<streamsize>::max() to completely 
-    // flush the stream. However, that has not been covered in class yet.
 
     return;
 }
@@ -170,4 +205,99 @@ bool isValidInput(std::string errorMsg)
     {
         return true;
     }
+}
+
+bool isNumber(const std::string& input)
+{
+    std::string invalidChars = "";
+
+    // collect non-digit characters into invalidChars array
+    for (unsigned int i = 0; i < input.length(); i++)
+    {
+        if (input[i] < '0' || input[i] > '9')
+        {
+            invalidChars += input[i];
+        }
+    }
+
+    int dots = 0;
+    int dashes = 0;
+
+    // review invalid chars for exceptions
+    for (unsigned int i = 0; i < invalidChars.length(); i ++)
+    {
+        switch(invalidChars[i])
+        {
+            case '.' : dots++; break;
+            case '-' : dashes++; break;
+            default : return false;
+        }
+        if (dots > 1 || dashes > 1) { return false; }
+    }
+
+    return true;
+}
+
+int convertToInt(const std::string& input)
+{
+    // num will be used to build the integer
+    int num = 0;
+    int sign = 1;
+    unsigned int i = 0;
+
+    // store the sign of the input. Then increment index to skip sign.
+    if (input[0] == '-') 
+    { 
+        sign = -1; 
+        i++;
+    }
+    for (; i <= input.length(); i++)
+    {
+        // Drop decimal values
+        if (input[i] == '.') { break; }
+        
+        // Build integer from left to right. 
+        num = 10 * num + (input[i] - '0');
+    }
+    return num * sign;
+}
+
+float convertToFloat(const std::string& input)
+{
+    // num will be used to build the float
+    float num = 0;
+    int sign = 1;
+    unsigned int i = 0;
+
+    // j is used to keep track of indexes after the decimal point
+    unsigned int j = 0;
+
+    // store the sign of the input. Then increment index to skip sign.
+    if (input[0] == '-')
+    {
+        sign = -1;
+        i++;
+    }
+    for (; i <= input.length(); i++)
+    {
+        if (input[i] == '.') { break; }
+        
+        num = 10 * num + (input[i] - '0');
+    }
+    // Continue building number without decimal values
+    for (j = i + 1; j < input.length(); j++)
+    {
+       num = 10 * num + (input[j] - '0'); 
+    }
+    
+    // Evaluate number of decimal places
+    int decimalDigits = 1;
+    for (int k = (j-1) - i; k > 0; k--)
+    {
+        decimalDigits *= 10;
+    }
+    // Integrate decimal digits back into number
+    num = (num / decimalDigits) * sign;
+    
+    return num;
 }
