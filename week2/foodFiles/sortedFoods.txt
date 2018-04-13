@@ -1,0 +1,10 @@
+apples
+bananas
+broccoli
+cauliflower
+grapes
+lettuce
+onions
+orange
+potato
+strawberry
