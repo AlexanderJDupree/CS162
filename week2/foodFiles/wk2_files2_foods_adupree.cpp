@@ -12,6 +12,10 @@
 * Compiler:  GNU GCC 5.4.0
 *
 * Date: 2018-04-12
+*
+* Modifications:
+*
+*   TODO add cout lines to provide feedback for file manipulation.
 *******************************************************************************/
 
 #include <fstream>
@@ -31,8 +35,9 @@ void copyFile(std::ifstream& fin, std::ofstream& fout, int& lineCount);
 // Copies file from fin into fout
 
 void extractData(std::ifstream& fin, std::string[], int lines, char delim='\n');
-// Will extract data until the delimeter is found and then store that data into
-// the string array. 
+// Extracts data from the input file and stores it into an array until the 
+// delimeter is found. Will repeat this process for the number of specified 
+// lines or until EOF.
 
 void writeArray(std::ofstream& fout, const std::string ara[], int size);
 // Loops through ara and copies the contents into a file
@@ -133,6 +138,10 @@ void extractData(std::ifstream& fin, std::string ara[], int lines, char delim)
     char data;
     for (int i = 0; i < lines; i++)
     {
+        if (fin.eof())
+        {
+            break;
+        }
         while(fin.get(data) && data != delim)
         {
             ara[i] += toLower(data);
