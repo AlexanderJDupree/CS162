@@ -14,8 +14,6 @@ Airport::Airport(std::string ident, std::string type, std::string name,
     {
         throw std::invalid_argument("elevation was not a valid integer");
     }
-
-
 }
  
 std::string Airport::identifier() 

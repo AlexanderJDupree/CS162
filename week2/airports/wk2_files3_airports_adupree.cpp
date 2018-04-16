@@ -49,7 +49,7 @@ int main()
     // Minus one to discount the top field names line.
     
     reader.closeFiles();
-/*    
+    
     fin.open(OUTNAME);
     if (fin.fail())
     {
@@ -57,7 +57,8 @@ int main()
         exit(1);
     }
 
-    Airport airports[lines];
+    std::cout << lines << std::endl;
+    Airport* airports = new Airport[lines];
     // airport array size is allocated to the number of lines in our file
     // stream. Each row in our file in will create an airport object.
     
@@ -66,7 +67,7 @@ int main()
     // Debug
     std::cout << airports[lines - 1].name() << " " << airports[lines - 1].elevation() << std::endl;
     std::cout << airports[lines - 2].name() << " " << airports[lines - 2].elevation() << std::endl;
-*/
+
     return 0;
 }
 
@@ -92,7 +93,6 @@ void extractData(std::ifstream& fin, Airport airports[], int lines, int fields)
         {
             std::cerr << err.what() << "Elevation: " << field[3] << " line: " 
                       << count << std::endl;
-
         }
         count++;
     }

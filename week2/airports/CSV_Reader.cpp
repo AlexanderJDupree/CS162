@@ -2,7 +2,7 @@
 #include <iostream> // Debug
 
 CSV_Reader::CSV_Reader(const char infile[], const char outfile[], char delim) 
-    : m_INFILE(infile), m_OUTFILE(outfile), m_delim(delim), m_columns(0) {}
+    : m_INFILE(infile), m_OUTFILE(outfile), m_delim(delim), m_lines(0) {}
 
 CSV_Reader::~CSV_Reader()
 {
@@ -84,6 +84,7 @@ void CSV_Reader::readFields()
         {
             // insert the valid index into the indexes set 
             m_fields.insert(index);
+            m_rightBound = index;
         }
 
         //increment index to represend next column and reset field string
@@ -109,7 +110,7 @@ void CSV_Reader::copyData()
     // Read till the end of file
     while(!m_fin.eof())
     {
-        for (int i = 0; i <= *m_fields.end(); i++)
+        for (int i = 0; i <= m_rightBound; i++)
         {
             std::getline(m_fin, data, m_delim);
 
@@ -120,8 +121,8 @@ void CSV_Reader::copyData()
                 {
                     // Jump to the marker, beginning of line
                     m_fout.seekp(marker);
-                    break;
                     m_lines--;
+                    break;
                 }
                 else
                 {
@@ -132,17 +133,21 @@ void CSV_Reader::copyData()
             }
         }
 
-        // Skip the rest of the line
-        std::getline(m_fin, data);
-
+       
         // Return iterator to beginning of set
         it = m_fields.begin();
 
         // Record position
         marker = m_fout.tellp();
 
-        // Move out file to next line
-        m_fout << '\n';
+        if (m_rightBound < m_columns)
+        {
+            // Skip the rest of the line
+            std::getline(m_fin, data);
+
+            // Move out file to next line
+            m_fout << '\n';
+        }
         m_lines++;
     }
 
