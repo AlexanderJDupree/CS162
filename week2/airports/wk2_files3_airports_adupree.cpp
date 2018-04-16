@@ -26,8 +26,8 @@ int main()
 {
     int lines;
     std::ifstream fin;
-    const char FNAME[] = "airports.csv";
-    const char OUTNAME[] = "newAirportFile.csv";
+    const char FNAME[] = "newAirportFile.csv";
+    const char OUTNAME[] = "newAirportFile2.csv";
 
     const std::string FIELDS[5] = {"ident", "type", "name", "elevation_ft", 
                                 "iso_country"};
@@ -58,15 +58,13 @@ int main()
     }
 
     std::cout << lines << std::endl;
+    
     Airport* airports = new Airport[lines];
-    // airport array size is allocated to the number of lines in our file
-    // stream. Each row in our file in will create an airport object.
+    // We use dynamic allocation on an object array here because stack 
+    // allocation of parralell arrays was blowing the stack on my machine. 
+    // To solve this I created an array of airport objects on the heap.
     
     extractData(fin, airports, lines, 5);
-
-    // Debug
-    std::cout << airports[lines - 1].name() << " " << airports[lines - 1].elevation() << std::endl;
-    std::cout << airports[lines - 2].name() << " " << airports[lines - 2].elevation() << std::endl;
 
     return 0;
 }
@@ -74,7 +72,9 @@ int main()
 void extractData(std::ifstream& fin, Airport airports[], int lines, int fields)
 {
     int count = 0;
+    int index = 0;
     std::string field[fields];
+    // Temp array used in the airport constructor. 
 
     // Skip first line
     std::getline(fin, field[0]);
@@ -88,6 +88,9 @@ void extractData(std::ifstream& fin, Airport airports[], int lines, int fields)
         {
             airports[count] = Airport(field[0], field[1], field[2], field[3], 
                                   field[4]);
+            index++;
+            // We only increment index for completed entries. This makes sure 
+            // that valid objects are stored next to each other in the array.
         }
         catch (std::invalid_argument& err)
         {
@@ -96,4 +99,7 @@ void extractData(std::ifstream& fin, Airport airports[], int lines, int fields)
         }
         count++;
     }
+    std::cout << index << std::endl;
+    return;
 }
+

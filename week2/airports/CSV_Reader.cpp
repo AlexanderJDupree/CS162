@@ -1,5 +1,4 @@
 #include "CSV_Reader.h"
-#include <iostream> // Debug
 
 CSV_Reader::CSV_Reader(const char infile[], const char outfile[], char delim) 
     : m_INFILE(infile), m_OUTFILE(outfile), m_delim(delim), m_lines(0) {}
@@ -117,7 +116,7 @@ void CSV_Reader::copyData()
             if (i == *it)
             {
                 // Found invalid data
-                if (data == "") 
+                if (data == "" || data[0] == '"') 
                 {
                     // Jump to the marker, beginning of line
                     m_fout.seekp(marker);
@@ -140,7 +139,7 @@ void CSV_Reader::copyData()
         // Record position
         marker = m_fout.tellp();
 
-        if (m_rightBound < m_columns)
+        if (m_rightBound < m_columns - 1)
         {
             // Skip the rest of the line
             std::getline(m_fin, data);
