@@ -16,6 +16,10 @@
 * Modifications:
 *
 *   TODO add cout lines to provide feedback for file manipulation.
+*
+*   18-APR-2018 - added cout statements to display processes to the terminal
+*                 and added cin statements to allow the user to read the 
+*                 processes.
 *******************************************************************************/
 
 #include <fstream>
@@ -42,7 +46,7 @@ void extractData(std::ifstream& fin, std::string[], int lines, char delim='\n');
 void writeArray(std::ofstream& fout, const std::string ara[], int size);
 // Loops through ara and copies the contents into a file
 
-void appendFile(std::ofstream& fout, const char file[], const std::string& word);
+void appendFile(std::ofstream& fout, const char file[],const std::string& word);
 // Opens file with ios::app flag, append the word , then closes file
 
 std::string getInput(std::string prompt);
@@ -106,6 +110,9 @@ void openFile(std::ofstream& fout, const char file[])
         std::cout << "Failed to open " << file << std::endl;
         exit(1);
     }
+
+    std::cout << "\nOpening file " << file << " for writing." << std::endl;
+    std::cin.get();
     return;
 }
 
@@ -117,6 +124,9 @@ void openFile(std::ifstream& fin, const char file[])
         std::cout << "Failed to open " << file << std::endl;
         exit(1);
     }
+
+    std::cout << "\nOpening file " << file << " for reading." << std::endl;
+    std::cin.get();
     return;
 }
 
@@ -129,6 +139,9 @@ void copyFile(std::ifstream& fin, std::ofstream& fout, int& lineCount)
         fout << data << '\n';
         lineCount++;
     }
+
+    std::cout << "\nCopied data from input file to output file!" << std::endl;
+    std::cin.get();
 
    return;
 }
@@ -148,6 +161,10 @@ void extractData(std::ifstream& fin, std::string ara[], int lines, char delim)
             // data is converted to lower case for sorting purposes
         }
     }
+
+    std::cout << "\nExtracting data from input file into memory." << std::endl;
+    std::cin.get();
+   
     return;
 }
 
@@ -157,6 +174,9 @@ void writeArray(std::ofstream& fout, const std::string ara[], int size)
     {
         fout << ara[i] << '\n';
     }
+    
+    std::cout << "\nWriting sorted array into output file" << std::endl;
+    std::cin.get();
     return;
 }
 
@@ -171,6 +191,9 @@ void appendFile(std::ofstream& fout, const char file[], const std::string& word)
     }
 
     fout << word << '\n';
+
+    std::cout << "Output file was appended " << word << std::endl;
+    std::cin.get();
 
     fout.close();
 

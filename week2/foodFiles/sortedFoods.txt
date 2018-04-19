@@ -3,7 +3,6 @@ bananas
 broccoli
 cauliflower
 grapes
-haha
 lettuce
 onions
 orange
