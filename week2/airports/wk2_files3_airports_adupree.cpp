@@ -92,7 +92,7 @@ int main()
     // arrays.
 
     const char DELIMITER = '\t';
-    const char FILEIN[] = "airports2.csv";
+    const char FILEIN[] = "airports.csv";
     const char FILEOUT[] = "newAirportFile.csv";
     const std::string FIELDS[5] = {"ident", "type", "name", "elevation_ft", 
                                 "iso_country"};
