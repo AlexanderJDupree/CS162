@@ -1,6 +1,5 @@
 #include "airport.h" 
 #include <stdexcept>
-#include <iostream>
 
 Airport::Airport(std::string ident, std::string type, std::string name, 
                  std::string elev, std::string  country) : m_ident(ident), 

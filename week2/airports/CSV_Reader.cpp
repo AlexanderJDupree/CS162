@@ -70,6 +70,7 @@ void CSV_Reader::readFields()
     {
         // reset the data variable
         data = '\0';
+
         // read until the delimiter or end of line
         while (m_fin.get(data) && data != m_delim && data != '\n')
         {
@@ -99,55 +100,70 @@ void CSV_Reader::readFields()
 
 void CSV_Reader::copyData()
 {
+    int index = 0;
     int marker = 0;
-    std::string data = "";
+    char ch = '\0';
     std::set<int>::iterator it = m_fields.begin();
 
     // return to the beginning of the file
     m_fin.seekg(marker, std::ios::beg);
 
-    // Read till the end of file
+    // Read until the end of file
     while(!m_fin.eof())
     {
-        for (int i = 0; i <= m_rightBound; i++)
+        std::string data = "";
+        // Initialize data to null
+        
+        while (m_fin.get(ch) && (ch != m_delim && ch != '\n'))
         {
-            std::getline(m_fin, data, m_delim);
+            data += ch;
+        }
 
-            if (i == *it)
+        if (index == *it)
+        {
+            // Found invalid data
+            if (data == "")
             {
-                // Found invalid data
-                if (data == "" || data[0] == '"') 
-                {
-                    // Jump to the marker, beginning of line
-                    m_fout.seekp(marker);
-                    m_lines--;
-                    break;
-                }
-                else
-                {
-                    m_fout << data << m_delim;
-                    // Move iterator to th next desired column
-                    it++;
-                }
+                // Jump to the marker, beginning of line
+                m_fout.seekp(marker);
+                index = 0;
+                it = m_fields.begin();
+                m_lines--;
+            }
+            else 
+            {
+                m_fout << data << m_delim;
+                
+                // Move iterator to the next desired column
+                it++;
             }
         }
 
-       
-        // Return iterator to beginning of set
-        it = m_fields.begin();
-
-        // Record position
-        marker = m_fout.tellp();
-
-        if (m_rightBound < m_columns - 1)
+        if (index == m_rightBound)
         {
-            // Skip the rest of the line
-            std::getline(m_fin, data);
+            if (ch != '\n')
+            {
+                // Skip the rest of line
+                m_fin.ignore(1000, '\n');
+            }
+
+            index = 0;
+            
+            // Return iterator to begin
+            it = m_fields.begin();
 
             // Move out file to next line
             m_fout << '\n';
+
+            // Mark beginning of the line
+            marker = m_fout.tellp();
+
+            m_lines++;
         }
-        m_lines++;
+        else
+        {
+            index++;
+        }
     }
 
     return;

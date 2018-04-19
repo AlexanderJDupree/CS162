@@ -13,6 +13,12 @@
 *
 *   TODO Restructer std::set<int> m_fields into a regular array. We don't need 
 *   the set functionality or iterators.
+*
+*   TODO Add functions to enable the user to determine what is or is not bad
+*   data. I.E. numbers below 4000 or strings with a " ". 
+*
+*   TODO Code review, m_columns isn't being used and there is a lot of bloat
+*   
 *******************************************************************************/
 
 #ifndef CSV_READER_H
