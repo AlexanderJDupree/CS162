@@ -131,8 +131,7 @@ int main()
        to be able to sort the parrallel arrays so I could search for elements 
        faster. To solve this I dynamically allocated an array of airport objects
        onto the heap, and on the stack I created pointer arrays of the search 
-       criteria. This allows me to sort the pointer arrays and binary search 
-       them.  */ 
+       criteria. This allows me to sort the pointer arrays and them.  */ 
 
     extractData(fin, airports, lines, 5, DELIMITER);
 
@@ -174,7 +173,6 @@ int main()
     } while (input != "q");
      
     return 0;
-       
 }
 
 void printChoices()

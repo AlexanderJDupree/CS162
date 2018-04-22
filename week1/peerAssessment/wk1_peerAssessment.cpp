@@ -53,10 +53,10 @@ bool isNumber(const std::string& input);
 // allowed one '-' and '.' character despite it not being a numerical character.
 // If all characters are allowed and or exceptional we return true. 
 
-int convertToInt(const std::string& input);
-// Loops through VALIDATED input string and builds an integer by taking
-// advantage of a encoding offset. I.E. the characters '0' - '9' are 48 - 57 on 
-// the ASCII and UTF-8 tables. This means we can take each character from the 
+int converttoint(const std::string& input);
+// loops through validated input string and builds an integer by taking
+// advantage of a encoding offset. i.e. the characters '0' - '9' are 48 - 57 on 
+// the ascii and utf-8 tables. this means we can take each character from the 
 // input string and minus 48 from it and get the represented integer.
 
 float convertToFloat(const std::string&input);
@@ -238,14 +238,14 @@ bool isNumber(const std::string& input)
     return true;
 }
 
-int convertToInt(const std::string& input)
+int converttoint(const std::string& input)
 {
     // num will be used to build the integer
     int num = 0;
     int sign = 1;
     unsigned int i = 0;
 
-    // store the sign of the input. Then increment index to skip sign.
+    // store the sign of the input. then increment index to skip sign.
     if (input[0] == '-') 
     { 
         sign = -1; 
@@ -253,10 +253,10 @@ int convertToInt(const std::string& input)
     }
     for (; i <= input.length(); i++)
     {
-        // Drop decimal values
+        // drop decimal values
         if (input[i] == '.') { break; }
         
-        // Build integer from left to right. 
+        // build integer from left to right. 
         num = 10 * num + (input[i] - '0');
     }
     return num * sign;

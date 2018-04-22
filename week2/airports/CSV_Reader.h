@@ -39,6 +39,7 @@ public:
     
     ~CSV_Reader();
     // Destructor calls member function closeFiles.
+    // TODO this seems to crash the program, memory segment core dumped error.
 
     void clean(const std::string fields[], const int numFields);
     // Parameter fields array contains all column identifiers for the 
