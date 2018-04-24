@@ -76,6 +76,7 @@ Member& Member::operator = (const Member copy)
     m_lName = copy.m_lName;
     m_email = copy.m_email;
 
+    // TODO check id for value. Must not be 0
     memberIDs[m_id] = this;
 
     return *this;

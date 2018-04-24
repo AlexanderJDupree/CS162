@@ -1,3 +1,5 @@
-ID,FNAME,LNAME,EMAIL
-836628,Alex,DuPree,dupree2022@gmail.com
-329817,Rachel,DuPree,rachdupree@gmail.com
+ID,FNAME,LNAME,EMAIL,
+329817,Rachel,DuPree,rachdupree@gmail.com,
+442302,Alexander,DuPree,dupree2022@gmail.com,
+584826,Rick,Sanchez,rickandmorty.com,
+682183,Dude,Lebowski,ImTheDude@hotmail.com,

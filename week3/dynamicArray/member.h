@@ -8,7 +8,8 @@
 *              constructor to ensure each member has a UNIQUE ID associated with
 *              themself. 
 *
-* Author: Alexander Dupree
+* Author: Alexander DuPree
+*
 * Date: 2018-04-19
 *
 * Modifications:

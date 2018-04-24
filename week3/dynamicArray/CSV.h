@@ -1,10 +1,19 @@
 /*******************************************************************************
-* File: CSV.h
-* Description: 
+* Namespace: CSV
+*
+* Description: CSV namespace allows user access to the Reader and Writer classes
+*              to read and modify delimited file formats
+*
 * Author: Alexander DuPree
+*
 * Compiler:  GNU GCC 5.4.0
+*
 * Date: 2018-04-14
+*
 * Modifications:
+*       TODO Reader and Writer share the same constructor, destructor, and 
+*       certain inspectors. Refactor CSV into a parent class with Reader and
+*       Writer as children classes that inherit the basic methods from CSV
 *******************************************************************************/
 
 #ifndef CSV_H
@@ -15,6 +24,16 @@
 
 namespace CSV 
 {
+
+/*******************************************************************************
+* Class Name: Reader
+*
+* Description: Reader class provides functionality for extracting data from a 
+*              delimited file format into an array. Once a Reader object has 
+*              been constructed for a file it also provides inspectors for
+*              determining the number of lines and columns in a file.
+*******************************************************************************/
+
     class Reader
     {
     public:
@@ -69,6 +88,16 @@ namespace CSV
         int countLines();
         // Counts the number of lines in the file and stores that into m_lines
     };
+
+/*******************************************************************************
+* Class Name: Writer
+*
+* Description: Writer class provides functionality for writing data from an 
+*              array into a delimited file format. Writer object can append to
+*              a file or overwrite a file by providing a boolean argument to the
+*              constructor. Writer object provides an inspector to determine the
+*              number of lines wrote.
+*******************************************************************************/
 
     class Writer
     {
