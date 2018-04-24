@@ -1,6 +1,5 @@
 #include "member.h"
-#include <iostream> // debug
-
+/* Constructors */
 Member::Member(unsigned int id, std::string fName, std::string lName, 
         std::string email) : m_id(id), m_fName(fName), m_lName(lName), 
                              m_email(email)
@@ -22,7 +21,7 @@ Member::Member(const Member& member) : m_id(member.m_id),
     memberIDs[m_id] = this;
 }
 
-// Getters
+/* Inspectors */
 unsigned int Member::ID() const 
 {
     return m_id;
@@ -48,7 +47,7 @@ std::string Member::email() const
     return m_email;
 }
 
-// Setters
+/* Mutators */
 void Member::setName(std::string fName, std::string lName)
 {
     m_fName = fName;
@@ -62,42 +61,12 @@ void Member::setEmail(std::string email)
     return;
 }
 
-// Operator overloads
+/* Operator overloads */
 std::ostream& operator << (std::ostream& out, Member& member)
 {
     out << "\nID:\t" << member.ID() << "\nName:\t" << member.name() 
               << "\nEmail:\t" << member.email() << std::endl;
     return out;
-}
-
-bool Member::operator < (const Member& member) const
-{
-    return m_id < member.ID();
-}
-
-bool Member::operator <= (const Member& member) const
-{
-    return !(*this > member);
-}
-
-bool Member::operator > (const Member& member) const
-{
-    return member.ID() < m_id;
-}
-
-bool Member::operator >= (const Member& member) const
-{
-    return !(*this < member);
-}
-
-bool Member::operator == (const Member& member) const
-{
-    return m_id == member.ID();
-}
-
-bool Member::operator != (const Member& member) const
-{
-    return !(*this == member);
 }
 
 Member& Member::operator = (const Member copy)

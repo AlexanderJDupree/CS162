@@ -36,21 +36,40 @@
 * Date: 2018-04-19
 *
 * Modifications:
-*   TODO Change the createID function calls to hash on the Members phone number. 
 *******************************************************************************/
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstdlib>
 #include "member.h"
-#include "CSV_Reader.h"
+#include "CSV.h"
 
-void loadData(CSV_Reader& reader, Member members[]);
+void printInterface();
+
+void printError(std::string error);
+
+void printMembers(std::map<unsigned int, Member*>& IDs, std::string caption);
+// Prints all members, sorted by ID
+
+void printMember(Member* member, std::string caption);
+// Prints a single members information
+
+void resetInputStream();
+// resets stream failed state, flushes input buffer
+
+void pauseConsole();
+// Prints "press enter to continue" and uses cin.get() to pause the program
+
+void loadData(CSV::Reader& reader, Member members[]);
 // Loads data from the input file into the Members array. 
+
+void writeData(CSV::Writer& writer, std::map<unsigned int, Member*>& IDs,
+        const std::string FIELDS[], const int COLUMNS);
 
 void addMember(Member *& members, std::string fName, std::string lName,
         std::string email, int& size);
-// TODO reword this function into seperate functions. A int that returns the 
+// TODO rework this function into seperate functions. A int that returns the 
 // index of the free location. AddMember that adds the member into the location
 // and a resize call for when the array is full
 
@@ -61,7 +80,7 @@ void deleteMember(std::map<unsigned int, Member*>& IDs,  int memberID);
 
 void resize(Member *& members, int& size);
 // Allocates a new dynamic array of size + 10. Copies over the contents, deletes
-// the old array and then points the member ptr to the new array. A pointer 
+// the old array and then points the old pointer to the new array. A pointer 
 // reference is used to ensure the original pointer is being reassigned
 
 int strToInt(const std::string& input);
@@ -71,26 +90,40 @@ int strToInt(const std::string& input);
 // input string and minus 48 from it and get the represented integer.
 
 unsigned int createID(const std::string& name);
-// Utilizes a VERY basic hash function to create a unique 5 digit identification
-// number. This hash function is likely to cause collisions, however in the 
+// Utilizes a VERY basic hash function to create a unique 6 digit identification
+// number. This hash function can cause collisions, however in the 
 // scope of this program it is unlikely.
+
+std::string intToStr(const int num);
+// Uses string stream to return a string of the integer object
+
+std::string toUpper(const std::string& name);
+// Returns the uppercase version of parameter name
+
+template <typename T>
+T getInput(std::string prompt);
+// grabs input from the keyboard. Discards all characters after the first space
+
 
 Member* searchByName(std::map<unsigned int, Member*>& IDs, std::string fName, 
         std::string lName);
 
 int main()
 {   
-    //Declarations
     std::ofstream fout;
-    
+
     int size = 10;
     // Initial size of 10 allows a buffer of 10 empty member slots in our 
     // dynamic array. This value is CHANGED everytime the array needs to resize
+    const int COLUMNS = 4;
+    // Columns represents the number of columns to be used in our txt file
     
-    const char delim = ',';
+    char input;
+    const char DELIM = ',';
     const char FNAME[] = "saintsMembers.txt";
+    const std::string FIELDS[COLUMNS] = {"ID", "FNAME", "LNAME", "EMAIL"};
 
-    CSV_Reader reader(FNAME, delim);
+    CSV::Reader reader(FNAME, DELIM);
 
     size += reader.lines();
     // Size is equal to the number of members in the FNAME file + 10
@@ -99,6 +132,7 @@ int main()
     // Dynamic Array to hold all member objects with a buffer for adding new
     // members
 
+
     try
     {
         loadData(reader, members);
@@ -106,23 +140,159 @@ int main()
     }
     catch (invalid_ID& err)
     {
-        std::cout << err.what() << std::endl;
-        std::cout << FNAME << " contained invalid IDs" << std::endl;
+        std::cerr << err.what() << std::endl;
+        std::cerr << FNAME << " contained invalid IDs" << std::endl;
         exit(1);
     }
 
-    // Interface
+    reader.closeFile();
+
+    // Interface and output
     do {
 
-    } while(true);
+        // Placeholder variables for grabbing input
+        int id = 0;
+        std::string fName = "", 
+                    lName = "", 
+                    email = "";
+
+
+        printInterface();
+
+        input = getInput<char>("\n> ");    
+
+        switch(input)
+        {
+            // Add member
+            case '1' : 
+
+                fName = getInput<std::string>("\nEnter members First Name: ");
+                lName = getInput<std::string>("Enter members Last Name: ");
+                email = getInput<std::string>("Enter members email address: ");
+
+                try 
+                {
+                    addMember(members, fName, lName, email, size);
+                }
+                catch (invalid_ID& err)
+                {
+                    std::cerr << "\nSorry, looks like '" << fName << ' ' <<lName
+                              << "' is already in our system." << std::endl;
+                }
+                break;
+
+            // Remove member
+            case '2' : 
+
+                id = getInput<int>("\nEnter the members ID to remove: ");
+                deleteMember(members->memberIDs, id);
+                break;
+
+            // Search by name, change email
+            case '3' : 
+            {
+                fName = getInput<std::string>("\nEnter members First Name:  ");
+                lName = getInput<std::string>("Enter members Last Name: ");
+                Member* member = searchByName(members->memberIDs, fName, lName);
+
+                if (member)
+                {
+                    printMember(member, "\nMember found!");
+                    std::cout << "Change email address? (Y/N)" << std::endl;
+
+                    char choice = getInput<char>("> ");
+                    if (choice == 'y' || choice == 'Y')
+                    {
+                        email = getInput<std::string>("Enter the new email: ");
+                        member->setEmail(email);
+                        printMember(member, "\nEmail changed!");
+                    }
+                }
+                else
+                {
+                    std::cout << "\nMember not found: " << lName << " " << fName 
+                              << std::endl; 
+                }
+            }   break;
+
+            // Print all members
+            case '4' :
+
+                printMembers(members->memberIDs, "Saints Fitness Members: ");
+                break;
+
+            case 'q' : break;
+
+            default : printError("Invalid input.");
+        }
+
+        pauseConsole();
+
+    } while(input != 'q' && input != 'Q');
+  
+    CSV::Writer writer("test.txt", DELIM);
+    // Instantiate writer object
     
-
-
-
+    writeData(writer, members->memberIDs, FIELDS, COLUMNS);
+    // Write changes to members to saintsMembers.txt
+    
     return 0;
 }
 
-void loadData(CSV_Reader& reader, Member members[])
+void printInterface()
+{
+    std::cout << "\n\t\tSAINTS FITNESS\nWelcome to Saints Fitness membership " 
+              << "tracker.\n\nPlease choose an option:" << std::endl;
+    std::cout << "\n  1.\tAdd a new member\n  2.\tRemove a member\n  3.\t"
+              << "Search for a member\n  4.\tView all members!"
+              << "\nPress 'q' to quit." << std::endl;
+    return;
+}
+
+void printError(std::string error)
+{
+    std::cout << error << std::endl;
+    return;
+}
+
+void printMembers(std::map<unsigned int, Member*>& IDs, std::string caption)
+{
+    std::map<unsigned int, Member*>::iterator it;
+
+    std::cout << caption << std::endl;
+    for (it = IDs.begin(); it != IDs.end(); it++)
+    {
+        std::cout << *it->second;
+    }
+
+    return;
+}
+
+void printMember(Member* member, std::string caption)
+{
+    std::cout << caption << std::endl; 
+    std::cout << *member;
+    return;
+}
+
+void resetInputStream()
+{
+    // reset failed state
+    std::cin.clear();
+
+    // discard characters to the limit of the stream size OR to newline
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return;
+}
+
+void pauseConsole()
+{
+    std::cout << "\nPress enter to continue." << std::endl;
+    std::cin.get();
+    return;
+}
+
+void loadData(CSV::Reader& reader, Member members[])
 {
     std::string* fields = new std::string[reader.fields()];
 
@@ -141,6 +311,24 @@ void loadData(CSV_Reader& reader, Member members[])
 
     return;
 }
+void writeData(CSV::Writer& writer, std::map<unsigned int, Member*>& IDs,
+        const std::string FIELDS[], const int COLUMNS)
+{
+    std::string data[COLUMNS];
+    std::map<unsigned int, Member*>::iterator it;
+
+    writer.writeLine(FIELDS, COLUMNS);
+
+    for (it = IDs.begin(); it != IDs.end(); it++)
+    {
+        data[0] = intToStr(it->second->ID());
+        data[1] = it->second->fname();
+        data[2] = it->second->lname();
+        data[3] = it->second->email();
+        writer.writeLine(data, COLUMNS);
+    }
+    return;
+}
 
 void addMember(Member *& members, std::string fName, std::string lName,
         std::string email, int& size)
@@ -151,6 +339,7 @@ void addMember(Member *& members, std::string fName, std::string lName,
         if (members[i].ID() == 0)
         {
             members[i] = Member(createID(fName + lName), fName, lName, email);
+            printMember(&members[i], '\n'+members[i].name()+" was added!");
             return;
         }
     }
@@ -169,13 +358,18 @@ void deleteMember(std::map<unsigned int, Member*>& IDs, int memberID)
     it = IDs.find(memberID);
     if (it == IDs.end())
     {
-        std::cout << "No matching ID: " << memberID << std::endl;
+        printError("\nNo matching ID found");
     }
     else 
     {
+        std::cout << "\nMember: " << memberID << "\t"  
+                  << it->second->name() << " removed.";
         // Member with matching ID is assigned null values.
         *it->second = Member();
-    }
+        IDs.erase(it);
+        IDs.erase(0);
+    } 
+
     return;
 }
 
@@ -232,27 +426,67 @@ int strToInt(const std::string& input)
 
 unsigned int createID(const std::string& name)
 {
+    std::string upperName = toUpper(name);
     unsigned long hash = 5381;
     // Prime number for hashing, long data type is used to hold the all digits
     // the has may reach
     
-    for(unsigned int i = 0; i < name.size(); i++)
+    for(unsigned int i = 0; i < upperName.size(); i++)
     {
-        hash = 33 * hash + (unsigned char)name[i];
+        hash = 33 * hash + (unsigned char)upperName[i];
     }
     
     // Return the last 6 digits of the hash
-    return hash % 1000000;
+    return static_cast<unsigned int>(hash % 1000000);
+}
+
+std::string intToStr(const int num)
+{
+    std::stringstream integer;
+    integer << num;
+    return integer.str();
+}
+
+std::string toUpper(const std::string& name)
+{
+    std::string upperCase = "";
+
+    for(unsigned int i = 0; i < name.size(); i++)
+    {
+        if (name[i] >= 'a' && name[i] <= 'z')
+        {
+            upperCase += name[i] - 32;
+        }
+        else
+        {
+            upperCase += name[i];
+        }
+
+    }
+    return upperCase;
+}
+
+template <typename T>
+T getInput(std::string prompt)
+{
+    T input;
+
+    std::cout << prompt;
+    std::cin >> input;
+    resetInputStream();
+
+    return input;
 }
 
 Member* searchByName(std::map<unsigned int, Member*>& IDs, std::string fName, 
         std::string lName)
 {
     std::map<unsigned int, Member*>::iterator it;
+
     it = IDs.find(createID(fName + lName));
+    // Hashes on the name of the member to find the ID built on that hash
     if (it == IDs.end())
     {
-        std::cout << "Member not found: " << lName << " " << fName << std::endl; 
         return NULL;
     }
     else

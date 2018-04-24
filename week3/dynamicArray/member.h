@@ -1,12 +1,18 @@
 /*******************************************************************************
-* File: member.h
-* Description: 
+* Class Name: Member
+*
+* Description: Member class provides user with an interface to store modify and
+*              view data relevant to each member at Saints Fitness. Each member 
+*              shares a static map of member IDs as keys and pointers to the 
+*              associated member as the value. This map is used in the 
+*              constructor to ensure each member has a UNIQUE ID associated with
+*              themself. 
+*
 * Author: Alexander Dupree
-* Compiler:  GNU GCC 5.4.0
 * Date: 2018-04-19
 *
 * Modifications:
-*   TODO Add data validation for id, and email
+*   TODO Add data validation for email
 *******************************************************************************/
 
 #ifndef MEMBER_H
@@ -21,6 +27,8 @@ class Member
 {
 
 public:
+
+    /* Constructors */
     
     // Default Constructor
     Member() : m_id(0), m_fName(""), m_lName(""), m_email("") {};
@@ -32,33 +40,38 @@ public:
     // Copy Constructor
     Member(const Member& member);
     
-    // Getters
+    // Default Destructor is used
+    
+    /* Inspectors */ 
     unsigned int ID() const;
 
     std::string name() const;
-    // Uses string concatenation to return Lname, Fname
+    // Uses string concatenation to return Lname + Fname
     
     std::string lname() const;
+
     std::string fname() const;
     
     std::string email() const;
 
-    // Setters
+    /* Mutators */
     void setName(std::string fName, std::string lName);
     void setEmail(std::string email);
 
-    // Operator overloads
-    friend std::ostream& operator << (std::ostream& out, Member& member);
-    bool operator < (const Member& member) const;
-    bool operator <= (const Member& member) const;
-    bool operator > (const Member& member) const;
-    bool operator >= (const Member& member) const;
-    bool operator == (const Member& member) const;
-    bool operator != (const Member& member) const;
-    Member& operator = (const Member copy);
+    /* Operator overloads */
 
-    // Public interface of user IDs
+    friend std::ostream& operator << (std::ostream& out, Member& member);
+    // Overload for console output
+    
+    Member& operator = (const Member copy);
+    // Assignment operator overload
+
+
+    /* Static Members */
     static std::map<unsigned int, Member*> memberIDs;
+    // memberIDs provides a public interface for searching, and modifying 
+    // members by entering the userID. The nature of this red-black tree ensures
+    // there are no duplicate IDs
 
 private:
 
@@ -86,7 +99,6 @@ struct invalid_ID : public std::exception
     {
         return error;
     }
-
 };
 
 #endif // MEMBER_H
