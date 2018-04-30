@@ -1,0 +1,42 @@
+/*******************************************************************************
+* File: wk4_encryption_adupree.cpp
+*
+* Description: 
+*
+* Author: Alexander DuPree
+*
+* Compiler:  GNU GCC 5.4.0
+*
+* Date: 2018-04-28
+*
+*******************************************************************************/
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+typedef std::vector<std::string> stringVector;
+
+void extractData(std::ifstream& fin, stringVector& container);
+
+int main()
+{
+    std::ifstream fin;
+    std::ofstream fout;
+    stringVector plainWords;
+    stringVector encrypted;
+
+    const char* FNAME = "plainWords.txt";
+    const char* ENCRYPTED = "encryptedWords.txt";
+    const char* OUTFILE = "allWords.txt";
+
+    fin.open(FNAME);
+    if (fin.fail())
+    {
+        printError("\nFailed to open file");
+    }
+
+
+
+    return 0;
+}

@@ -1,0 +1,12 @@
+Plain	Encrypted  Decrypted
+boat	tf/b	   boat
+puff	fl4p	   puff
+logo	of5l	   logo
+zany	ar<z	   zana	Encryption error on word #4
+echo	ot6e	   echo
+itsy	ykAi	   itsy
+djay	ya/d	   djay
+knit	te7k	   knit
+worm	mf@w	   worm
+quiz	zl7q	   quiz
+move	efDm	   move
