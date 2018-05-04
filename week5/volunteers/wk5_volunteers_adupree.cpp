@@ -13,11 +13,15 @@
 *******************************************************************************/
 
 #include <iostream>
+#include <cstdio>
 #include <limits>
 #include <string>
 
 typedef std::string string;
 
+/* Volunteer struct holds basic attributes pertaining to a volunteer object
+  A constructor and a basic inspector function was added for quality of life
+  purposes.*/
 struct Volunteer 
 {
     int idNo;
@@ -27,15 +31,26 @@ struct Volunteer
     string phone;
 
     // Default Constructor
-    Volunteer();
+    Volunteer() : idNo(0), hours(0.0), lName(""), fName(""), phone("") {};
 
     // Explicit Constructor
     Volunteer(int id, double hours, string lName, string fName, string phone)
         : idNo(id), hours(hours), lName(lName), fName(fName), phone(phone) {}
-
-    std::ostream& operator << (std::ostream& out, Volunteer& volunteer);
-
+    
+    // Concatenates name attributes into a formatted string
+    string name() const
+    {
+        return lName + ' ' + fName;
+    }
 };
+
+void printVolunteers(const Volunteer& worker1, const Volunteer& worker2, 
+                     const Volunteer& worker3);
+// Prints the fields for each volunteer using prinf to format the strings in a
+// specific way
+
+void printCaption(const string& caption);
+// Prints to paramter caption to the screen
 
 void getAttributes(int* id, double* hours, string* lName, string* fName, 
                    string* phone);
@@ -46,7 +61,7 @@ void resetInputStream();
 // Resets failed state, and flushes input buffer
 
 template <typename T>
-T getInput(std::string prompt);
+T getInput(string prompt);
 // grabs input from the keyboard. Discards all characters after the first space
 
 int main()
@@ -59,32 +74,63 @@ int main()
     string phone = "";
 
     // Explicit instantation of Volunteer struct
-    Volunteer volunteer1(1, 40, "DuPree", "Alex", "9712226225");
+    Volunteer worker1(1, 40.0, "DuPree", "Alex", "9712841416");
 
     // Default instantation, user will populate attributes
-    Volunteer volunteer2,
-              volunteer3;
+    Volunteer worker2,
+              worker3;
 
+    // Input and process
+    printCaption("\nEnter data for volunteer 2");
     getAttributes(&id, &hours, &lName, &fName, &phone);
 
-    volunteer2 = Volunteer(id, hours, lName, fName, phone);
+    worker2 = Volunteer(id, hours, lName, fName, phone);
 
+    printCaption("\nEnter data for volunteer 3");
     getAttributes(&id, &hours, &lName, &fName, &phone);
 
-    volunteer3 = Volunteer(id, hours, lName, fName, phone);
+    worker3 = Volunteer(id, hours, lName, fName, phone);
+
+    // Output
+    printVolunteers(worker1, worker2, worker3);
     
     return 0;
+}
+
+void printVolunteers(const Volunteer& worker1, const Volunteer& worker2, 
+                     const Volunteer& worker3)
+{
+    std::printf("ID\tHOURS\tNAME\t\t     PHONE");
+
+    // Prints the volunteer in the following format:
+    // newline - id number - hours with one decimal place - up to 20 characters
+    // of the volunteers name - up to 10 characters of the phone number
+    std::printf("\n%i\t%.1f\t%-20.20s %.10s\n", worker1.idNo, worker1.hours, 
+                                 worker1.name().c_str(), worker1.phone.c_str());
+
+    std::printf("\n%i\t%.1f\t%-20.20s %.10s\n", worker2.idNo, worker2.hours, 
+                                 worker2.name().c_str(), worker2.phone.c_str());
+
+    std::printf("\n%i\t%.1f\t%-20.20s %.10s\n", worker3.idNo, worker3.hours, 
+                                 worker3.name().c_str(), worker3.phone.c_str());
+
+    return;
+}
+
+void printCaption(const string& caption)
+{
+    std::cout << caption << std::endl;
 }
 
 void getAttributes(int* id, double* hours, string* lName, string* fName, 
                    string* phone)
 {
     *id = getInput<int>("\nEnter Volunteer ID: ");
-    *lName = getInput<string>("\nEnter volunteers First name: ");
-    *fName = getInput<string>("\nEnter volunteers Last name: ");
-    *phone = getInput<string>("\nEnter phone number: ");
-    *hours = getInput<double>("\nEnter hours worked: ");
-
+    *fName = getInput<string>("Enter volunteers First name: ");
+    *lName = getInput<string>("Enter volunteers Last name: ");
+    *phone = getInput<string>("Enter phone number: ");
+    *hours = getInput<double>("Enter hours worked: ");
+    return;
 }
 
 void resetInputStream()
