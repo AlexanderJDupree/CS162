@@ -24,33 +24,113 @@ struct Vector2
     {
         this->x = oldVector.x;
         this->y = oldVector.y;
+        std::cout << "Vector2 copied!" << std::endl;
     }
 
     // Destructor
     ~Vector2()
     {
-        std::cout << "Vector2 destroyred" << std::endl;
+        std::cout << "Vector2 destroyed" << std::endl;
+    }
+
+    friend std::ostream& operator << (std::ostream& out, Vector2& vector)
+    {
+        out << "X: " << vector.x << "\tY: " << vector.y << std::endl;
+
+        return out;
+    }
+
+};
+
+template<typename T>
+class List {
+
+public:
+
+    List() : head(NULL), cur(NULL), temp(NULL) {};
+    void addNode(T* data)
+    {
+        temp = new Node;
+        temp->data = data;
+        temp->next = NULL;
+
+        if (head == NULL)
+        {
+            head = temp;
+            cur = temp;
+            temp = NULL;
+        }
+        else
+        {
+            cur->next = temp;
+            cur = temp;
+        }
+    }
+    void delEnd()
+    {
+        nodePtr previous;
+        temp = head;
+        while (temp->next != cur)
+        {
+            previous = temp;
+            temp = temp->next;
+        }
+        delete cur;
+        cur = previous;
+        
+        return;
+    };
+    
+       T* begin()
+    {
+        return head;
+    }
+
+    T* end()
+    {
+        return cur;
+    }
+
+    void printList()
+    {
+        temp = head;
+        while (temp != NULL)
+        {
+            std::cout << *temp->data;
+            temp = temp->next;
+        }
+        return;
     }
 
 private:
 
-    struct Node
-    {
-        Vector2* data;
+    typedef struct Node {
+        T* data;
         Node* next;
-    };
+    }* nodePtr;
 
-    Node* cur;
-    Node* temp;
-    Node* head;
-
+    nodePtr cur;
+    nodePtr temp;
+    nodePtr head;
 };
+
 
 int main()
 { 
     Vector2 pos(1, 2);
+    Vector2 pos2(2, 4);
+    Vector2 pos3(3, 6);
 
-    std::cout << pos.x << std::endl;
+    List<Vector2> vectors;
+
+    vectors.addNode(&pos);
+    vectors.addNode(&pos2);
+    vectors.addNode(&pos3);
+
+    vectors.printList();
+    vectors.delEnd();
+    vectors.printList();
+    
 
     return 0;
 }
