@@ -45,6 +45,7 @@ public:
     Rectangle(int width, int length, string line, string fill);
 
     // Default destructor is used
+    ~Rectangle() {}
 
     // Inspectors
     int width();
@@ -122,9 +123,9 @@ void Rectangle::setFillColor(string fillColor)
 
 std::ostream& operator<<(std::ostream& out, const Rectangle& rect)
 {
-    out << "\nWidth: " << rect.m_width << "\t\tLength: " << rect.m_length
-        << "\nLine Color: " << rect.m_lineColor << "\tFill Color: " 
-        << rect.m_fillColor << std::endl;
+    out << "\n\t\tRECTANGLE\nWidth: " << rect.m_width << "\t\tLength: " 
+        << rect.m_length << "\nLine Color: " << rect.m_lineColor 
+        << "\tFill Color: " << rect.m_fillColor << std::endl;
     return out;
 }
 
@@ -143,6 +144,9 @@ void getAttributes(int* width, int* length, string* line, string* fill);
 
 void resetInputStream();
 // Resets failed state, and flushes input buffer
+
+string toLower(const string& word);
+// Converts the word into lower case
 
 bool validateDimension(int data, int _min, int _max);
 // Returns true of data is within the inclusive min/mix range
@@ -181,14 +185,15 @@ int main()
 
                       if (validateDimension(width, 0, INT_MAX) && 
                           validateDimension(length, 0, INT_MAX) && 
-                          validateColor(line, COLORS) && 
-                          validateColor(fill, COLORS))
+                          validateColor(toLower(line), COLORS) && 
+                          validateColor(toLower(fill), COLORS))
                       {
                           rectangle = Rectangle(width, length, line, fill);
+                          std::cout << rectangle;
                       }
                       else
                       {
-                          printError("Invalid input");
+                          printError("\nInvalid input!");
                       }
                       break;
             case '3': width = getInput<int>("Enter new width: ");
@@ -212,7 +217,7 @@ int main()
                       }
                       break;
             case '5': line = getInput<string>("Enter a color: ");
-                      if (validateDimension(length, 0, INT_MAX))
+                      if (validateColor(toLower(line), COLORS))
                       {
                           rectangle.setLineColor(line);
                       }
@@ -222,7 +227,7 @@ int main()
                       }
                       break;
             case '6': fill = getInput<string>("Enter a color: ");
-                      if (validateDimension(length, 0, INT_MAX))
+                      if (validateColor(toLower(fill), COLORS))
                       {
                           rectangle.setFillColor(fill);
                       }
@@ -271,6 +276,23 @@ void resetInputStream()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return;
 } 
+
+string toLower(const string& word)
+{
+    string lower = "";
+    for (unsigned int i = 0; i < word.length(); i++)
+    {
+        if (word[i] > 'A' && word[i] < 'Z')
+        {
+            lower += word[i] + 32;
+        }
+        else
+        {
+            lower += word[i];
+        }
+    }
+    return lower;
+}
 
 bool validateDimension(int data, int _min, int _max)
 {
