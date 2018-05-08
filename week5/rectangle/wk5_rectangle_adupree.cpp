@@ -25,13 +25,15 @@ static const int INT_MAX = std::numeric_limits<int>::max();
 
 /////////////////////////////// RECTANGLE CLASS ////////////////////////////////
 
-/* Class: Rectangle
- * 
- * Description: Rectangle class provides user methods to access and mutate the 
- *              member attributes that belong to a rectangle. Rectangles 
- *              attributes are the length and width of the rectangle as well as 
- *              the colors of the edges and the surface
-*/
+/******************************************************************************* 
+* Class: Rectangle
+* 
+* Description: Rectangle class provides user methods to access and mutate the 
+*              member attributes that belong to a rectangle. Rectangles 
+*              attributes are the length and width of the rectangle as well as 
+*              the colors of the edges and the surface
+*
+*******************************************************************************/
 
 class Rectangle
 {
@@ -48,16 +50,16 @@ public:
     ~Rectangle() {}
 
     // Inspectors
-    int width();
-    int length();
-    string lineColor();
-    string fillColor();
+    const int& width() const;
+    const int& length() const;
+    const string& lineColor() const;
+    const string& fillColor() const;
 
     // Mutators
-    void setWidth(int width);
-    void setLength(int length);
-    void setLineColor(string lineColor);
-    void setFillColor(string fillColor);
+    Rectangle& width(const int& width);
+    Rectangle& length(const int& length);
+    Rectangle& lineColor(const string& lineColor);
+    Rectangle& fillColor(const string& fillColor);
 
 private:
     int m_width;
@@ -74,58 +76,57 @@ Rectangle::Rectangle(int width, int length, string line, string fill)
     : m_width(width), m_length(length), m_lineColor(line), m_fillColor(fill) {}
 
 // Inspectors
-int Rectangle::width()
+const int& Rectangle::width() const
 {
     return m_width;
 }
 
-int Rectangle::length()
+const int& Rectangle::length() const
 {
     return m_length;
 }
 
-string Rectangle::lineColor()
+const string& Rectangle::lineColor() const
 {
     return m_lineColor;
 }
 
-string Rectangle::fillColor()
+const string& Rectangle::fillColor() const
 {
     return m_fillColor;
 }
 
 // Mutators
-void Rectangle::setWidth(int width)
+Rectangle& Rectangle::width(const int& width)
 {
     m_width = width;
-    return;
+    return *this;
 }
 
-void Rectangle::setLength(int length)
+Rectangle& Rectangle::length(const int& length)
 {
     m_length = length;
-    return;
+    return *this;
 }
 
-void Rectangle::setLineColor(string lineColor)
+Rectangle& Rectangle::lineColor(const string& lineColor)
 {
     m_lineColor = lineColor;
-    return;
+    return *this;
 }
 
-void Rectangle::setFillColor(string fillColor)
+Rectangle& Rectangle::fillColor(const string& fillColor)
 {
     m_fillColor = fillColor;
-    return;
+    return *this;
 }
 
 // Stream operator overload
-
 std::ostream& operator<<(std::ostream& out, const Rectangle& rect)
 {
-    out << "\n\t\tRECTANGLE\nWidth: " << rect.m_width << "\t\tLength: " 
-        << rect.m_length << "\nLine Color: " << rect.m_lineColor 
-        << "\tFill Color: " << rect.m_fillColor << std::endl;
+    out << "\n\t\tRECTANGLE\nWidth: " << rect.width() << "\t\tLength: " 
+        << rect.length() << "\nLine Color: " << rect.lineColor() 
+        << "\tFill Color: " << rect.fillColor() << std::endl;
     return out;
 }
 
@@ -190,51 +191,45 @@ int main()
                       {
                           rectangle = Rectangle(width, length, line, fill);
                           std::cout << rectangle;
+                          break;
                       }
-                      else
-                      {
-                          printError("\nInvalid input!");
-                      }
+
+                      printError("\nInvalid input!");
                       break;
+
             case '3': width = getInput<int>("Enter new width: ");
                       if (validateDimension(width, 0, INT_MAX))
                       {
-                          rectangle.setWidth(width);
+                          rectangle.width(width);
+                          break;
                       }
-                      else
-                      {
-                          printError("Invalid width, must be greater than 0");
-                      }
+                      printError("Invalid width, must be greater than 0");
                       break;
+                      
             case '4': length = getInput<int>("Enter new length: ");
                       if (validateDimension(length, 0, INT_MAX))
                       {
-                          rectangle.setLength(length);
+                          rectangle.length(length);
+                          break;
                       }
-                      else
-                      {
-                          printError("Invalid length, must be greater than 0");
-                      }
+                      printError("Invalid length, must be greater than 0");
                       break;
+
             case '5': line = getInput<string>("Enter a color: ");
                       if (validateColor(toLower(line), COLORS))
                       {
-                          rectangle.setLineColor(line);
+                          rectangle.lineColor(line);
+                          break;
                       }
-                      else
-                      {
-                          printError("Invalid, please use a primary color");
-                      }
+                      printError("Invalid, please use a primary color");
                       break;
+                      
             case '6': fill = getInput<string>("Enter a color: ");
                       if (validateColor(toLower(fill), COLORS))
                       {
-                          rectangle.setFillColor(fill);
+                          rectangle.fillColor(fill);
                       }
-                      else
-                      {
-                          printError("Invalid, please use a primary color");
-                      }
+                      printError("Invalid, please use a primary color");
         }
 
     } while (input != 'q' && input != 'Q');
