@@ -1,11 +1,16 @@
 /*******************************************************************************
- * File: wk5_spacecraft_adupree.cpp
- * Description: Program defines and tests Spacecraft class by allowing the user 
- *              to manipulate member functions and variable of the Spacecraft
- * Author: Alexander DuPree
- * Compiler:  GNU GCC 5.4.0
- * Date: 2018-05-07
- *******************************************************************************/
+* File: wk5_spacecraft_adupree.cpp
+*
+* Description: Program defines and tests Spacecraft class by allowing the user 
+*              to manipulate member functions and variable of the Spacecraft
+*
+* Author: Alexander DuPree
+*
+* Compiler:  GNU GCC 5.4.0
+*
+* Date: 2018-05-07
+*******************************************************************************/
+
 #include <iostream>
 #include <exception>
 #include <string>
@@ -50,12 +55,8 @@ private:
 
 Direction::Direction(double direction) 
 {
-    if(!validate(direction))
-    {
-        throw std::invalid_argument("Direction must be 0-360 degrees");
-    }
-
-    m_degree = direction;
+    degree(direction);
+    // Uses member mutator degree for setting member variable. 
 }
 
 const double& Direction::degree() const
