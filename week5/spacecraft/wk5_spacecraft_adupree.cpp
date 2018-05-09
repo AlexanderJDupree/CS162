@@ -9,6 +9,7 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include <limits>
 
 /*******************************************************************************
 * Class: Direction
@@ -124,6 +125,12 @@ public:
     Spacecraft& maxSpeed(const double& speed);
     Spacecraft& direction(const double& direction);
 
+    // Operators
+    bool operator==(const Spacecraft& ship) const;
+    bool operator!=(const Spacecraft& ship) const;
+    bool operator<(const Spacecraft& ship) const;
+    bool operator>(const Spacecraft& ship) const;
+
 private:
 
     std::string m_type;
@@ -192,6 +199,27 @@ Spacecraft& Spacecraft::direction(const double& direction)
     return *this;
 }
 
+// Operators
+bool Spacecraft::operator==(const Spacecraft& ship) const
+{
+    return m_maxSpeed == ship.maxSpeed();
+}
+
+bool Spacecraft::operator!=(const Spacecraft& ship) const
+{
+    return !(*this == ship);
+}
+
+bool Spacecraft::operator<(const Spacecraft& ship) const
+{
+    return m_maxSpeed < ship.maxSpeed();
+}
+
+bool Spacecraft::operator>(const Spacecraft& ship) const
+{
+    return !(*this < ship);
+}
+
 // Stream operator overload
 std::ostream& operator<<(std::ostream& out, const Spacecraft& ship)
 {
@@ -204,17 +232,123 @@ std::ostream& operator<<(std::ostream& out, const Spacecraft& ship)
 
 /////////////////////////////////END SPACECRAFT CLASS///////////////////////////
 
+void printChoices();
+// Prints the user interface
+
+void printError(std::string error);
+// Prints error to console
+
+void resetInputStream();
+// Resets failed state, and flushes input buffer
+
+void defineSpacecraft(Spacecraft* ship);
+// prompts the user to enter values for private member variables
+
+void showSpacecraft(const Spacecraft& ship, std::string caption);
+// Prints the ships data to console
+
+const Spacecraft* compareSpeed(const Spacecraft& ship1, const Spacecraft& ship2);
+// Compares the maximum speed of 2 spacecraft instances returns true if ship1 is faster
+
+template <typename T>
+T getInput(std::string prompt);
+// grabs input from the keyboard. Discards all characters after the first space
+
 int main()
 {
     Spacecraft ship1;
     Spacecraft ship2("Combat", 0, 520, 180);
 
-    std::cout << ship1 << ship2;
+    showSpacecraft(ship1, "Ship 1, default data");
+    showSpacecraft(ship2, "\nShip 2, explicit constructor");
 
-    ship1.type("Freight").speed(10).maxSpeed(100).direction(302.123);
-    std::cout << ship1;
+    try
+    {
+        std::cout << "\nEnter ship attributes" << std::endl;
+        defineSpacecraft(&ship1);
+    }
+    catch (std::invalid_argument& err)
+    {
+        std::cerr << err.what() << std::endl;
+    }
+
+    showSpacecraft(ship1, "\nShip 1, new data");
+    showSpacecraft(ship2, "\nShip 2, same data");
+
+    const Spacecraft* fastest = compareSpeed(ship1, ship2);
+    showSpacecraft(*fastest, "\nShip with fastest max speed");
+
     return 0;
 }
+
+void printChoices()
+{
+    return;
+}
+
+void printError(std::string error)
+{
+    std::cout << error << std::endl;
+    return;
+}
+
+void resetInputStream()
+{
+    // reset failed state
+    std::cin.clear();
+
+    // discard characters to the limit of the stream size OR to newline
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return;
+}
+
+void defineSpacecraft(Spacecraft* ship)
+{
+    std::string type = getInput<std::string>("Enter ship type: ");
+    double speed = getInput<double>("Enter ships current speed: ");
+    double maxSpeed = getInput<double>("Eneter ships max speed: ");
+    double direction = getInput<double>("Enter ships current heading in degrees: ");
+
+    ship->type(type).speed(speed).maxSpeed(maxSpeed).direction(direction);
+    return;
+}
+
+void showSpacecraft(const Spacecraft& ship, std::string caption)
+{
+    std::cout << caption << std::endl;
+    std::cout << ship;
+    return;
+}
+
+const Spacecraft* compareSpeed(const Spacecraft& ship1, const Spacecraft& ship2)
+{
+    if (ship1 == ship2)
+    {
+        return NULL;
+    }
+    else if (ship1 < ship2)
+    {
+        return &ship2;
+    }
+    else
+    {
+        return &ship1;
+    }
+
+}
+
+template <typename T>
+T getInput(std::string prompt)
+{
+    T input;
+
+    std::cout << prompt;
+    std::cin >> input;
+    resetInputStream();
+
+    return input;
+}
+
                            
 
     
