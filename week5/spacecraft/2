@@ -232,8 +232,8 @@ std::ostream& operator<<(std::ostream& out, const Spacecraft& ship)
 
 /////////////////////////////////END SPACECRAFT CLASS///////////////////////////
 
-void pauseConsole();
-// Prints "press enter to continue" and uses cin.get() to pause the program
+void printChoices();
+// Prints the user interface
 
 void printError(std::string error);
 // Prints error to console
@@ -248,8 +248,7 @@ void showSpacecraft(const Spacecraft& ship, std::string caption);
 // Prints the ships data to console
 
 const Spacecraft* compareSpeed(const Spacecraft& ship1, const Spacecraft& ship2);
-// Compares the maximum speed of 2 Spacecraft objects. Returns a pointer to the
-// faster object and NULL if the ships speed are the same
+// Compares the maximum speed of 2 spacecraft instances returns true if ship1 is faster
 
 template <typename T>
 T getInput(std::string prompt);
@@ -263,42 +262,27 @@ int main()
     showSpacecraft(ship1, "Ship 1, default data");
     showSpacecraft(ship2, "\nShip 2, explicit constructor");
 
-    pauseConsole();
-
     try
     {
+        std::cout << "\nEnter ship attributes" << std::endl;
         defineSpacecraft(&ship1);
     }
     catch (std::invalid_argument& err)
     {
-        // This block executes when use attempts to enter an invalid heading in 
-        // degrees.
-        printError(err.what());
-        pauseConsole();
+        std::cerr << err.what() << std::endl;
     }
 
     showSpacecraft(ship1, "\nShip 1, new data");
     showSpacecraft(ship2, "\nShip 2, same data");
 
-    pauseConsole();
-
     const Spacecraft* fastest = compareSpeed(ship1, ship2);
-    if (fastest)
-    {
-        showSpacecraft(*fastest, "\nShip with fastest max speed");
-    }
-    else
-    {
-        printError("\nShips are the same speed");
-    }
+    showSpacecraft(*fastest, "\nShip with fastest max speed");
 
     return 0;
 }
 
-void pauseConsole()
+void printChoices()
 {
-    std::cout << "\nPress enter to continue." << std::endl;
-    std::cin.get();
     return;
 }
 
@@ -320,7 +304,6 @@ void resetInputStream()
 
 void defineSpacecraft(Spacecraft* ship)
 {
-    std::cout << "\nEnter ship attributes" << std::endl;
     std::string type = getInput<std::string>("Enter ship type: ");
     double speed = getInput<double>("Enter ships current speed: ");
     double maxSpeed = getInput<double>("Eneter ships max speed: ");
@@ -365,4 +348,9 @@ T getInput(std::string prompt)
 
     return input;
 }
+
+                           
+
+    
+
 
