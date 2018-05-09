@@ -21,8 +21,6 @@
 
 typedef std::string string;
 
-static const int INT_MAX = std::numeric_limits<int>::max();
-
 /////////////////////////////// RECTANGLE CLASS ////////////////////////////////
 
 /******************************************************************************* 
@@ -67,14 +65,34 @@ private:
     string m_lineColor;
     string m_fillColor;
 
+    //Validators
+    bool validateDimension(const int& data);
+    // Returns true of data is greater than 0, else throws argument error
+
+    bool validateColor(const string& color);
+    // Returns true if color is contained within the accepted colors vector
+    // else, throws invalid argument error
+
+    static const std::vector<string> COLORS;
+    // List of valid colors, shared between objects
+
     // Stream operator overload
     friend std::ostream& operator<<(std::ostream& out, const Rectangle& rect);
 
 };
 
 Rectangle::Rectangle(int width, int length, string line, string fill)
-    : m_width(width), m_length(length), m_lineColor(line), m_fillColor(fill) {}
+{
+    if (validateDimension(width) && validateDimension(length) && 
+        validateColor(line) && validateColor(fill))
+    {
+        m_width = width;
+        m_length = length;
+        m_lineColor = line;
+        m_fillColor = fill;
+    }
 
+}
 // Inspectors
 const int& Rectangle::width() const
 {
@@ -99,27 +117,69 @@ const string& Rectangle::fillColor() const
 // Mutators
 Rectangle& Rectangle::width(const int& width)
 {
-    m_width = width;
+    if (validateDimension(width))
+    {
+        m_width = width;
+    }
     return *this;
 }
 
 Rectangle& Rectangle::length(const int& length)
-{
-    m_length = length;
+{    
+    if (validateDimension(length))
+    {
+        m_length = length;
+    }
     return *this;
 }
 
 Rectangle& Rectangle::lineColor(const string& lineColor)
 {
-    m_lineColor = lineColor;
+    if (validateColor(lineColor))
+    {
+        m_lineColor = lineColor;
+    }
     return *this;
 }
 
 Rectangle& Rectangle::fillColor(const string& fillColor)
 {
-    m_fillColor = fillColor;
+    if (validateColor(fillColor))
+    {
+        m_fillColor = fillColor;
+    }
     return *this;
 }
+
+// Validators
+bool Rectangle::validateDimension(const int& data)
+{
+    if (data >= 0)
+    {
+        return true;
+    }
+    else
+    {
+        throw std::invalid_argument("Dimension was less than 0");
+    }
+}
+
+bool Rectangle::validateColor(const string& color)
+{
+    std::vector<string>::const_iterator it;
+    for (it = COLORS.begin(); it != COLORS.end(); ++it)
+    {
+        if (color == *it)
+        {
+            return true;
+        }
+    }
+    throw std::invalid_argument("Invalid color, check accepted colors");
+}
+
+std::vector<string> const Rectangle::COLORS = {"black", "blue", "brown", "cyan", 
+                                           "green", "magenta", "orange", "pink", 
+                                           "red", "violet", "white", "yellow"};
 
 // Stream operator overload
 std::ostream& operator<<(std::ostream& out, const Rectangle& rect)
@@ -136,7 +196,7 @@ std::ostream& operator<<(std::ostream& out, const Rectangle& rect)
 void printChoices();
 // Prints the user interface
 
-void printError(string error);
+void printError(const string& error);
 // Prints error to console
 
 void getAttributes(int* width, int* length, string* line, string* fill);
@@ -149,21 +209,12 @@ void resetInputStream();
 string toLower(const string& word);
 // Converts the word into lower case
 
-bool validateDimension(int data, int _min, int _max);
-// Returns true of data is within the inclusive min/mix range
-
-bool validateColor(string color, const std::vector<string>& COLORS);
-// Returns true if color is contained within the accepted colors vector
-
 template <typename T>
 T getInput(string prompt);
 // grabs input from the keyboard. Discards all characters after the first space
 
 int main()
 {
-    const std::vector<string> COLORS = {"black", "blue", "brown", "cyan", 
-                                        "green", "magenta", "orange", "pink", 
-                                        "red", "violet", "white", "yellow"};
     int width(0);
     int length(0);
     string line("");
@@ -178,60 +229,48 @@ int main()
     {
         printChoices();
         input = getInput<char>("");
-        
+       
+        try
+        {
+ 
         switch(input)
         {
+            // Print rectangle
             case '1': std::cout << rectangle; break;
+
+            // Enter all new attributes
             case '2': getAttributes(&width, &length, &line, &fill);
-
-                      if (validateDimension(width, 0, INT_MAX) && 
-                          validateDimension(length, 0, INT_MAX) && 
-                          validateColor(toLower(line), COLORS) && 
-                          validateColor(toLower(fill), COLORS))
-                      {
-                          rectangle = Rectangle(width, length, line, fill);
-                          std::cout << rectangle;
-                          break;
-                      }
-
-                      printError("\nInvalid input!");
+                      rectangle = Rectangle(width, length, toLower(line), 
+                                            toLower(fill));
+                      std::cout << rectangle;
                       break;
 
+            // Set width
             case '3': width = getInput<int>("Enter new width: ");
-                      if (validateDimension(width, 0, INT_MAX))
-                      {
-                          rectangle.width(width);
-                          break;
-                      }
-                      printError("Invalid width, must be greater than 0");
+                      rectangle.width(width);
                       break;
-                      
+                                           
+            // Set length
             case '4': length = getInput<int>("Enter new length: ");
-                      if (validateDimension(length, 0, INT_MAX))
-                      {
-                          rectangle.length(length);
-                          break;
-                      }
-                      printError("Invalid length, must be greater than 0");
+                      rectangle.length(length);
                       break;
 
+            // Set line color
             case '5': line = getInput<string>("Enter a color: ");
-                      if (validateColor(toLower(line), COLORS))
-                      {
-                          rectangle.lineColor(line);
-                          break;
-                      }
-                      printError("Invalid, please use a primary color");
+                      rectangle.lineColor(line);
                       break;
                       
+            // Set fill color
             case '6': fill = getInput<string>("Enter a color: ");
-                      if (validateColor(toLower(fill), COLORS))
-                      {
-                          rectangle.fillColor(fill);
-                      }
-                      printError("Invalid, please use a primary color");
+                      rectangle.fillColor(fill);
         }
 
+        }
+        catch(std::invalid_argument& err)
+        {
+            printError(err.what());
+        }
+       
     } while (input != 'q' && input != 'Q');
    
     return 0;
@@ -247,7 +286,7 @@ void printChoices()
     return;
 }
 
-void printError(string error)
+void printError(const string& error)
 {
     std::cout << error << std::endl;
     return;
@@ -287,24 +326,6 @@ string toLower(const string& word)
         }
     }
     return lower;
-}
-
-bool validateDimension(int data, int _min, int _max)
-{
-    return data >= _min && data <= _max;
-}
-
-bool validateColor(string color, const std::vector<string>& COLORS)
-{
-    std::vector<string>::const_iterator it;
-    for (it = COLORS.begin(); it != COLORS.end(); ++it)
-    {
-        if (color == *it)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 template <typename T>
