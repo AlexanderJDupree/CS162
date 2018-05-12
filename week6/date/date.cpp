@@ -5,23 +5,30 @@ Date::Date(const unsigned short& month, const unsigned short& day,
     : m_month(new Month(month)), m_year(new Year(year))
 {
     // TODO Data validation for days max parameter
-    m_day = new Day(day, 30);
+    m_day = new Day(day, offsets[month - 1] + STANDARD_MONTH);
+}
+
+Date::~Date()
+{
+    delete m_month;
+    delete m_day;
+    delete m_year;
 }
 
 // Inspectors
-const DateTime& Date::month() const
+const unsigned short& Date::month() const
 {
-    return *this->m_month;
+    return m_month->unit();
 }
 
-const DateTime& Date::day() const
+const unsigned short& Date::day() const
 {
-    return *this->m_day;
+    return m_day->unit();
 }
 
-const DateTime& Date::year() const
+const unsigned short& Date::year() const
 {
-    return *this->m_year;
+    return m_year->unit();
 }
 
 // Mutators
@@ -42,4 +49,32 @@ Date& Date::year(const unsigned short& year)
     m_year->unit(year);
     return *this;
 }
+
+void Date::addToDate(int days)
+{
+    while (days > 0)
+    {
+        if (m_day->add(1))
+        {
+            delete m_day;
+            m_day = new Day(1, offsets[m_month->unit()] + STANDARD_MONTH);
+                
+            // Only executes if days has rolled over
+            if (m_month->add(1))
+            {
+                // Only executes if months has rolled over
+                if (m_year->add(1))
+                {
+                    // TODO modify offsets for leap years
+                    // TODO, year is out of bounds and has reset
+                }
+            }
+        }
+
+        --days;
+
+    }
+    return;
+}
+
 

@@ -12,11 +12,18 @@ DateTime::DateTime(const unsigned short& unit, const int& _min, const int& max)
 
 }
 
+// Inpsectors
 const unsigned short& DateTime::unit()
 {
     return m_unit;
 }
 
+const int& DateTime::max()
+{
+    return _max;
+}
+
+// Mutators
 void DateTime::unit(const unsigned short& unit)
 {
     // TODO Exception maybe?

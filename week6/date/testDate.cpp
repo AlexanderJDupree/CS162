@@ -7,24 +7,35 @@
 *******************************************************************************/
 
 #include <iostream>
-#include "month.h"
-#include "year.h"
+#include "date.h"
+
+void printDate(const Date& date);
 
 int main()
 {
-    
-    DateTime* month = new Month(10);
+    Date date(9, 11, 1991);
 
-    std::cout << month->unit() << std::endl;
+    printDate(date);
 
-    month->unit(2);
+    date.addToDate(2);
 
-    std::cout << month->unit() << std::endl;
+    printDate(date);
+ 
+    date.addToDate(20);
 
-    month->add(31);
+    printDate(date);
+ 
+    date.addToDate(100);
 
-    std::cout << month->unit() << std::endl;
-
-    
+    printDate(date);
+     
     return 0;
+}
+
+void printDate(const Date& date)
+{
+    std::cout << date.month() << '/' << date.day() << '/' << date.year()
+              << std::endl;
+    return;
+
 }

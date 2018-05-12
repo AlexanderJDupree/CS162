@@ -20,7 +20,7 @@ class Day : public DateTime
 public:
     Day() : DateTime() {}
 
-    Day(const unsigned short& year, const int& _max) : DateTime(year, 1, _max) {}
+    Day(const unsigned short& day, const int& _max) : DateTime(day, 1, _max) {}
 
 };
 

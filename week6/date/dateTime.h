@@ -26,13 +26,13 @@ public:
 
     // Inspector
     virtual const unsigned short& unit();
+    virtual const int& max();
 
     // Mutator
     virtual void unit(const unsigned short& unit);
 
     // Member functions
     virtual bool add(const unsigned short& unit);
-
 
 protected:
 
