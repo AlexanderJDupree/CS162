@@ -4,8 +4,8 @@ Date::Date(const unsigned short& month, const unsigned short& day,
      const unsigned short& year) 
     : m_month(new Month(month)), m_year(new Year(year))
 {
-    // TODO Data validation for days max parameter
-    m_day = new Day(day, offsets[month - 1] + STANDARD_MONTH);
+    adjustForLeapYear();
+    m_day = new Day(day, m_month->getMaxDays());
 }
 
 Date::~Date()
@@ -47,6 +47,7 @@ Date& Date::day(const unsigned short& day)
 Date& Date::year(const unsigned short& year)
 {
     m_year->unit(year);
+    adjustForLeapYear();
     return *this;
 }
 
@@ -56,25 +57,40 @@ void Date::addToDate(int days)
     {
         if (m_day->add(1))
         {
-            delete m_day;
-            m_day = new Day(1, offsets[m_month->unit()] + STANDARD_MONTH);
-                
             // Only executes if days has rolled over
             if (m_month->add(1))
             {
                 // Only executes if months has rolled over
                 if (m_year->add(1))
                 {
-                    // TODO modify offsets for leap years
-                    // TODO, year is out of bounds and has reset
+                    // TODO, year is out of bounds and has reset to min value
+                    // do we allow this behavior to happen and alert the user 
+                    // or do we throw an error
                 }
+
+                adjustForLeapYear();
             }
+
+            delete m_day;
+            m_day = new Day(1, m_month->getMaxDays());
+            // Replaces Day object with one with valid bounds
         }
-
         --days;
-
     }
     return;
 }
 
+// Private
+void Date::adjustForLeapYear()
+{
+    if (m_year->isLeapYear())
+    {
+        m_month->leapYearAdjustment();
+    }
+    else
+    {
+        m_month->nonLeapYearAdjustment();
+    }
 
+    return;
+}

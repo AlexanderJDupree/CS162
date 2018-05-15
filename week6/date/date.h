@@ -12,9 +12,7 @@
 #ifndef DATE_H
 #define DATE_H
 
-#include "day.h"
-#include "month.h"
-#include "year.h"
+#include "dateTime.h"
 
 class Date
 {
@@ -46,17 +44,11 @@ public:
 
 private:
     
-    DateTime* m_month;
-    DateTime* m_day;
-    DateTime* m_year;
+    Month* m_month;
+    Day* m_day;
+    Year* m_year;
 
-    // Represents that the standard month is 31 days
-    const int STANDARD_MONTH = 31;
-
-    // The days missing from a 31 day month, each index represents the month
-    int offsets[12] = {0, -3, 0, -1, 0, -1, 0, 0, -1, 0, -1, 0};
-
-
+    void adjustForLeapYear();
 };
 
 #endif

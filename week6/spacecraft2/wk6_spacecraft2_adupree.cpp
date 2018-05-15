@@ -55,7 +55,7 @@ int main()
     }
     catch (std::exception& err)
     {
-        // This block executes when use attempts to enter an invalid heading in 
+        // This block executes when user attempts to enter an invalid heading in 
         // degrees.
         printError(err.what());
         pauseConsole();

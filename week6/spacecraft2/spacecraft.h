@@ -72,7 +72,6 @@
 #include <string>
 #include "direction.h"
 
-
 class Spacecraft
 {
 
@@ -91,17 +90,17 @@ public:
     ~Spacecraft() {};
 
     // Inspectors
-    const std::string& type() const;
-    const double& speed() const;
-    const double& maxSpeed() const;
-    const Direction& direction() const;
+    const std::string& getType() const;
+    const double& getCurrentSpeed() const;
+    const double& getMaxSpeed() const;
+    const double& getCurrentDirection() const;
 
     // Mutators return reference to owning object to allow for inline chaining
     // of setting attributes
-    Spacecraft& type(const std::string& type);
-    Spacecraft& speed(const double& speed);
-    Spacecraft& maxSpeed(const double& speed);
-    Spacecraft& direction(const double& direction);
+    Spacecraft& setType(const std::string& type);
+    Spacecraft& setCurrentSpeed(const double& speed);
+    Spacecraft& setMaxSpeed(const double& speed);
+    Spacecraft& setCurrentDirection(const double& direction);
 
     // Operators
     bool operator==(const Spacecraft& ship) const;
@@ -115,6 +114,7 @@ private:
     double m_speed;
     double m_maxSpeed;
     Direction m_direction;
+
  
     // Stream operator overload
     friend std::ostream& operator<<(std::ostream& out, const Spacecraft& ship);

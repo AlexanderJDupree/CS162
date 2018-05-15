@@ -6,40 +6,40 @@ Spacecraft::Spacecraft(std::string type, double speed, double maxSpeed,
       m_direction(Direction(direction)) {}
 
 // Inspectors
-const std::string& Spacecraft::type() const
+const std::string& Spacecraft::getType() const
 {
     return m_type;
 }
 
-const double& Spacecraft::speed() const
+const double& Spacecraft::getCurrentSpeed() const
 {
     return m_speed;
 }
 
-const double& Spacecraft::maxSpeed() const
+const double& Spacecraft::getMaxSpeed() const
 {
     return m_maxSpeed;
 }
 
-const Direction& Spacecraft::direction() const
+const double& Spacecraft::getCurrentDirection() const
 {
-    return m_direction;
+    return m_direction.degree();
 }
 
 // Mutators
-Spacecraft& Spacecraft::type(const std::string& type)
+Spacecraft& Spacecraft::setType(const std::string& type)
 {
     m_type = type;
     return *this;
 }
 
-Spacecraft& Spacecraft::speed(const double& speed)
+Spacecraft& Spacecraft::setCurrentSpeed(const double& speed)
 {
     m_speed = speed;
     return *this;
 }
 
-Spacecraft& Spacecraft::maxSpeed(const double& speed)
+Spacecraft& Spacecraft::setMaxSpeed(const double& speed)
 {
     if (speed < 0)
     {
@@ -49,7 +49,7 @@ Spacecraft& Spacecraft::maxSpeed(const double& speed)
     return *this;
 }
 
-Spacecraft& Spacecraft::direction(const double& direction)
+Spacecraft& Spacecraft::setCurrentDirection(const double& direction)
 {
     m_direction.degree(direction);
     return *this;
@@ -58,7 +58,7 @@ Spacecraft& Spacecraft::direction(const double& direction)
 // Operators
 bool Spacecraft::operator==(const Spacecraft& ship) const
 {
-    return m_maxSpeed == ship.maxSpeed();
+    return m_maxSpeed == ship.getMaxSpeed();
 }
 
 bool Spacecraft::operator!=(const Spacecraft& ship) const
@@ -68,7 +68,7 @@ bool Spacecraft::operator!=(const Spacecraft& ship) const
 
 bool Spacecraft::operator<(const Spacecraft& ship) const
 {
-    return m_maxSpeed < ship.maxSpeed(); }
+    return m_maxSpeed < ship.getMaxSpeed(); }
 
 bool Spacecraft::operator>(const Spacecraft& ship) const
 {
@@ -78,9 +78,9 @@ bool Spacecraft::operator>(const Spacecraft& ship) const
 // Stream operator overload
 std::ostream& operator<<(std::ostream& out, const Spacecraft& ship)
 {
-    out << "\n\t\tSPACECRAFT: " << ship.type() << "\nMax speed: " 
-        << ship.maxSpeed() << "\nCurrent speed: " << ship.speed() 
-        << "\nDirection: " << ship.direction().degree() << " degrees"
+    out << "\n\t\tSPACECRAFT: " << ship.getType() << "\nMax speed: " 
+        << ship.getMaxSpeed() << "\nCurrent speed: " << ship.getCurrentSpeed() 
+        << "\nDirection: " << ship.getCurrentDirection() << " degrees"
         << std::endl;
     return out;
 }
