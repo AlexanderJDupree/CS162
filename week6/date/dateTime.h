@@ -1,9 +1,61 @@
 /******************************************************************************
-* Class: Date
+* Class: DateTime
 
-* Description:
+* Description: DateTime object is the abstract base class for the Day, Month, 
+*              and Year children classes. The logic behind this architecture is
+*              because of the relationship between days, months, and years as 
+*              units of time the contain a min/max bound. Instead of writing 
+*              the same validation logic and methods 3 times I decided to write
+*              it once and inherit those methods with different parameters
 
 * Attributes and Methods:
+    const int _min - represents the minimum value the DateTime unit is allowed
+    const int _max - represents the maximum value the DateTime unit is allowed
+
+    unsigned short m_unit - represents the value of the DateTime unit. I.E. 
+                            3 days or 11 months or 1920 years
+
+    struct invalid_datetime - custom exception struct that inherits from std::
+                              exception
+
+    virtual bool validate(const unsigned short& unit)
+        - Precondition: 
+        - Postcondition: returns true if unit argument is within the inclusive
+                         min/max range
+
+    DateTime()
+        - Precondition:
+        - Postcondition: Instantiates a date time object with a min/max range 
+                         of 1 and a unit of 1
+
+    DateTime(const unsigned short& unit, const int& _min, const int& _max)
+        - Precondition: unit argument must be within the inclusive min/max 
+                        range. Throws invalid_datetime exception if condition
+                        is not met
+        - Postcondition: Instantiates a date time object with the values of the
+                         provided arguments
+
+    virtual ~DateTime()
+        - Precondition: 
+        - Postcondition: Default destructor used
+
+    virtual const unsigned short& unit()
+        - Precondition: valid DateTime object has been created
+        - Postcondition: returns a const reference to m_unit
+
+    virtual void unit(const unsigned short& unit)
+        - Precondition: unit must be within the min/max range
+        - Postcondition: sets m_unit = unit ONLY if unit arguement passes 
+                         validation
+
+    virtual bool add(const unsigned short& unit)
+        - Precondition: unit must be a postivie integer
+        - Postcondition: adds unit to current m_unit. If that sum is higher 
+                         than _max we modulo the sum by the _max and return 
+                         true to represent that the units have rolled over 
+                         to the beginning. 
+
+
 
 * Modifications:
 

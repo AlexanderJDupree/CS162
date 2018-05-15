@@ -64,8 +64,6 @@ void Date::addToDate(int days)
                 if (m_year->add(1))
                 {
                     // TODO, year is out of bounds and has reset to min value
-                    // do we allow this behavior to happen and alert the user 
-                    // or do we throw an error
                 }
 
                 adjustForLeapYear();
@@ -73,7 +71,7 @@ void Date::addToDate(int days)
 
             delete m_day;
             m_day = new Day(1, m_month->getMaxDays());
-            // Replaces Day object with one with valid bounds
+            // Replaces Day object with new object that has correct bounds
         }
         --days;
     }
