@@ -71,9 +71,5 @@ void Month::nonLeapYearAdjustment()
 
 bool Year::isLeapYear() const
 {
-    if (m_unit % 4 == 0 || m_unit % 400 == 0)
-    {
-        return true;
-    }
-    return false;
+    return m_unit % 4 == 0 || m_unit % 400 == 0;
 }
