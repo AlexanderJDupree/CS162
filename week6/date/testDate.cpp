@@ -42,8 +42,8 @@ int main()
     date.month(LEAP_MONTH).day(LEAP_DAY).year(LEAP_YEAR);
 
     // Test setters
-    assert(date.month() == TEST_MONTH);
-    assert(date.day() == TEST_DAY);
+    assert(date.month() == LEAP_MONTH);
+    assert(date.day() == LEAP_DAY);
     assert(date.year() == LEAP_YEAR);
 
     printDate(date);
@@ -51,15 +51,15 @@ int main()
     date.addToDate(9);
 
     // Leap year test
-    assert(date.day() == TEST_DAY + 9);
+    assert(date.day() == LEAP_DAY + 9);
 
     printDate(date);
 
     date.addToDate(365);
 
     // Test leap year and rollover properties of day,month and year class
-    assert(date.day() == TEST_DAY + 8);
-    assert(date.month() == TEST_MONTH);
+    assert(date.day() == LEAP_DAY + 8);
+    assert(date.month() == LEAP_MONTH);
     assert(date.year() == LEAP_YEAR + 1);
      
     return 0;
