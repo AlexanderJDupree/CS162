@@ -35,6 +35,13 @@ const unsigned short& Date::year() const
 Date& Date::month(const unsigned short& month)
 {
     m_month->unit(month);
+
+    unsigned short day = m_day->unit();
+
+    delete m_day;
+    m_day = new Day(day, m_month->getMaxDays());
+    // Replaces Day object with new object that has correct bounds
+
     return *this;
 }
 

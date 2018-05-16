@@ -79,12 +79,14 @@ public:
    
     // Default constructor
     Spacecraft()
-        : m_type("Generic"), m_speed(0), m_maxSpeed(100), 
-          m_direction(Direction(0)) {}
+        : type("Generic"), speed(0), maxSpeed(100), direction(Direction(0)),
+          maximumHealth(100), currentHealth(100), ammoCapacity(50), 
+          weaponDamage(1), currentAmmo(50) {}
 
     // Initializer constructor
     Spacecraft(std::string type, double speed, double maxSpeed, 
-               double direction);
+               double direction, int maxHealth, int health, int capacity, 
+               int weaponDamage, int ammo);
 
     // Deafult destructor is used
     ~Spacecraft() {};
@@ -94,6 +96,12 @@ public:
     const double& getCurrentSpeed() const;
     const double& getMaxSpeed() const;
     const double& getCurrentDirection() const;
+    const int& getMaximumHealth() const;
+    const int& getCurrentHealth() const;
+    const int& getAmmoCapacity() const;
+    const int& getWeaponDamage() const;
+    const int& getCurrentAmmo() const;
+
 
     // Mutators return reference to owning object to allow for inline chaining
     // of setting attributes
@@ -101,6 +109,11 @@ public:
     Spacecraft& setCurrentSpeed(const double& speed);
     Spacecraft& setMaxSpeed(const double& speed);
     Spacecraft& setCurrentDirection(const double& direction);
+    Spacecraft& setMaximumHealth(const int& maxHealth);
+    Spacecraft& setCurrentHealth(const int& health);
+    Spacecraft& setAmmoCapacity(const int& capacity);
+    Spacecraft& setWeaponDamage(const int& damage);
+    Spacecraft& setCurrentAmmo(const int& ammo);
 
     // Operators
     bool operator==(const Spacecraft& ship) const;
@@ -108,13 +121,20 @@ public:
     bool operator<(const Spacecraft& ship) const;
     bool operator>(const Spacecraft& ship) const;
 
+    // Member functions
+    void shoot(Spacecraft& ship);
+
 private:
 
-    std::string m_type;
-    double m_speed;
-    double m_maxSpeed;
-    Direction m_direction;
-
+    std::string type;
+    double speed;
+    double maxSpeed;
+    Direction direction;
+    int maximumHealth;
+    int currentHealth;
+    int ammoCapacity;
+    int weaponDamage;
+    int currentAmmo;
  
     // Stream operator overload
     friend std::ostream& operator<<(std::ostream& out, const Spacecraft& ship);
