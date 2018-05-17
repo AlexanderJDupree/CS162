@@ -39,6 +39,9 @@ public:
 
     // Member functions
     float slope();
+    
+    // Operator Overloads
+    bool operator == (const Line& line);
 
 private:
 

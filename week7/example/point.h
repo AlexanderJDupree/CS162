@@ -20,11 +20,14 @@ public:
 
     Point(const int& x, const int& y);
 
-    const int& x();
-    const int& y();
+    const int& x() const;
+    const int& y() const;
 
     Point* x(int x);
     Point* y(int y);
+
+    // Operator Overloads
+    bool operator==(const Point& point);
 
 private:
 

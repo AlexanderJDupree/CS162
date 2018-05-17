@@ -49,7 +49,13 @@ Line* Line::point2(int x, int y)
 // Member functions
 float Line::slope()
 {
-    float slope = m_point2.y() - m_point1.y() /
-                 (float)(m_point2.x() - m_point1.x());
-    return slope;
+    float y = m_point2.y() - m_point1.y();
+    float x = m_point2.x() - m_point2.x();
+    return y / x;
+}
+
+// Operator Overloads
+bool Line::operator == (const Line& line)
+{
+    return m_point1 == line.point1() && m_point2 == line.point2();
 }
