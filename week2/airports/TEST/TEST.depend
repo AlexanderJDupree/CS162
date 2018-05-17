@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1524290907 source:c:\users\dupre\desktop\cs162\week2\airports\airport.cpp
+	"airport.h"
+	<stdexcept>
+
+1524290907 c:\users\dupre\desktop\cs162\week2\airports\airport.h
+	<string>
+
+1524290907 source:c:\users\dupre\desktop\cs162\week2\airports\csv_reader.cpp
+	"CSV_Reader.h"
+
+1524290907 c:\users\dupre\desktop\cs162\week2\airports\csv_reader.h
+	<fstream>
+	<string>
+	<set>
+
+1524290908 source:c:\users\dupre\desktop\cs162\week2\airports\wk2_files3_airports_adupree.cpp
+	<iostream>
+	<fstream>
+	<cstdlib>
+	"CSV_Reader.h"
+	"airport.h"
+
