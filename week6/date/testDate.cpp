@@ -1,9 +1,14 @@
 /*******************************************************************************
 * File: testDate.cpp
-* Description:  
+*
+* Description: Program uses assert to test that the date object has valid 
+*              constructors, getters, setters, and member functions
+*
 * Author: Alexander DuPree
-* Compiler:  GNU GCC 5.4.0
-* Date: 2018-05-10
+* 
+* Compiler: GNU GCC 5.4.0
+*
+* Date: 2018 - 05 - 16
 *******************************************************************************/
 
 #include <iostream>
@@ -23,7 +28,7 @@ int main()
 
     Date date(MONTH, DAY, YEAR);
 
-    // Test construction was successfull and getters
+    // test construction was succesfull and getters
     assert(date.month() == MONTH);
     assert(date.day() == DAY);
     assert(date.year() == YEAR);
@@ -32,16 +37,17 @@ int main()
 
     date.addToDate(150);
 
-    // Test addToDate()
+    // test addToDate(), 2/8/1992 is 150 days from 9/11/91
     assert(date.month() == 2);
     assert(date.day() == 8);
     assert(date.year() == 1992);
 
     printDate(date);
 
+    // Use setters
     date.month(LEAP_MONTH).day(LEAP_DAY).year(LEAP_YEAR);
 
-    // Test setters
+    // test setters
     assert(date.month() == LEAP_MONTH);
     assert(date.day() == LEAP_DAY);
     assert(date.year() == LEAP_YEAR);
@@ -57,10 +63,12 @@ int main()
 
     date.addToDate(365);
 
-    // Test leap year and rollover properties of day,month and year class
+    // test leap year and rollover properties of day,month and year class
     assert(date.day() == LEAP_DAY + 8);
     assert(date.month() == LEAP_MONTH);
     assert(date.year() == LEAP_YEAR + 1);
+
+    printDate(date);
      
     return 0;
 }

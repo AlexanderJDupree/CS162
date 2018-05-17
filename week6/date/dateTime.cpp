@@ -1,3 +1,4 @@
+// Implementation for DateTime class and children classes
 #include "dateTime.h"
 
 DateTime::DateTime(const unsigned short& unit, const int& _min, const int& max)
@@ -48,6 +49,15 @@ bool DateTime::validate(const unsigned short& unit)
     return unit >= _min && unit <= _max;
 }
 
+//////////////////////////////////DAY CLASS////////////////////////////////////
+
+void Day::maxDays(const unsigned short& maxDays)
+{
+    _max = maxDays;
+    return;
+
+}
+
 //////////////////////////////////MONTH CLASS///////////////////////////////////
 
 const Month::Lengths& Month::getMaxDays()
@@ -71,5 +81,5 @@ void Month::nonLeapYearAdjustment()
 
 bool Year::isLeapYear() const
 {
-    return m_unit % 4 == 0 || m_unit % 400 == 0;
+    return (m_unit % 4 == 0 && m_unit % 100 !=0) || m_unit % 400 == 0;
 }

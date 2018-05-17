@@ -90,8 +90,8 @@ public:
 
 protected:
 
-    const int _min;
-    const int _max;
+    int _min;
+    int _max;
 
     unsigned short m_unit;
 
@@ -115,11 +115,19 @@ protected:
 };
 
 /******************************************************************************
-* Class: Date
+* Class: Day
 
-* Description:
+* Description: Day inherits from DateTime class. Represents a Day of the month
 
 * Attributes and Methods:
+
+    Day(const unsigned short& day, const int& _max) 
+        - Precondition:  day argument represents the day of the month, _max 
+                         represents the number of days in the month. day must 
+                         be less than max or an invalid_dateTime exception is 
+                         thrown
+        - Postcondition: Calls the DateTime constructor, instantaites the Day
+                         object
 
 * Modifications:
 
@@ -133,14 +141,45 @@ public:
 
     Day(const unsigned short& day, const int& _max) : DateTime(day, 1, _max) {}
 
+    void maxDays(const unsigned short& maxDays);
+
 };
 
 /******************************************************************************
-* Class: Date
+* Class: Month
 
-* Description:
+* Description: Month inherits from DateTime class. Represents a month of the 
+               Year. Contains an enumerable list of the length of days for 
+               each month
 
 * Attributes and Methods:
+
+    Month(const unsigned short& month)
+        - Precondition: month argument represents a month of the year, must be
+                        between 1-12 inclusive range
+        - Postcondition: calls the DateTime constructor, instantiates the Month
+                         object
+
+    enum Lenghts - Contains the enumeration for the max number of days a month
+                   can have. 
+
+    const Length& getMaxDays()
+        - Precondition: 
+        - Postcondition: returns the max number of days for the month the Month
+                         object is currently set
+
+    void leapYearAdjument()
+        - Precondition: 
+        - Postcondition: sets the second element in lengths list, representing 
+                         february, to 29
+    void nonLeapYearAdjument()
+        - Precondition: 
+        - Postcondition: sets the second element in lengths list, representing 
+                         february, to 28
+
+    lengths[12] - each element in the array represents the max number of days 
+                  for its corresponding month
+
 
 * Modifications:
 
@@ -176,12 +215,20 @@ private:
 };
 
 /******************************************************************************
-* Class: Date
+* Class: Year
 
-* Description:
+* Description: Year inherits from DateTime class. Represents a solar year. 
 
 * Attributes and Methods:
 
+    Year(const unsigned short& year)
+        - Precondition: year argument represents a year between 1900 - 2100
+        - Postcondition: calls the DateTime constrcutor, instantiates the Year
+                         object
+
+    isLeapYear()
+        - Precondition: 
+        - Postcondition: returns true if the Year objects value is a leapyear
 * Modifications:
 
 ******************************************************************************/

@@ -1,3 +1,5 @@
+// Implementation for Date
+
 #include "date.h"
 
 Date::Date(const unsigned short& month, const unsigned short& day, 
@@ -36,11 +38,7 @@ Date& Date::month(const unsigned short& month)
 {
     m_month->unit(month);
 
-    unsigned short day = m_day->unit();
-
-    delete m_day;
-    m_day = new Day(day, m_month->getMaxDays());
-    // Replaces Day object with new object that has correct bounds
+    m_day->maxDays(m_month->getMaxDays());
 
     return *this;
 }
