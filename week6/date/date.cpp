@@ -74,10 +74,10 @@ void Date::addToDate(int days)
                 adjustForLeapYear();
             }
 
-            delete m_day;
-            m_day = new Day(1, m_month->getMaxDays());
-            // Replaces Day object with new object that has correct bounds
+        m_day->maxDays(m_month->getMaxDays());
+    
         }
+
         --days;
     }
     return;

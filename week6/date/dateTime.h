@@ -245,6 +245,10 @@ public:
 
     bool isLeapYear() const;
 
+private:
+
+    unsigned short days = 365;
+
 };
 
 #endif // DATETIME_H

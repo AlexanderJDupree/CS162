@@ -13,7 +13,7 @@ DateTime::DateTime(const unsigned short& unit, const int& _min, const int& max)
 
 }
 
-// Inpsectors
+// Inspectors
 const unsigned short& DateTime::unit()
 {
     return m_unit;
