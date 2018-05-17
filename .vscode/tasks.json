@@ -24,8 +24,7 @@
             "label" : "Build Program",
             "type" : "shell",
             "command" : "g++",
-            "args" : [ "-g", "~/CS162/week6/spacecraft2/direction.cpp", "~/CS162/week6/spacecraft2/spacecraft.cpp", 
-                       "~/CS162/week6/spacecraft2/wk6_spacecraft2_adupree.cpp", "-o", "~/CS162/week6/spacecraft2/main", "-Wall"],
+            "args" : [ "-g", "~/CS162/week7/example/point.cpp", "~/CS162/week7/example/line.cpp", "~/CS162/week7/example/lineDriver.cpp", "-o", "~/CS162/week7/example/main", "-Wall"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
