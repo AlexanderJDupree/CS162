@@ -31,6 +31,8 @@ void defineSpacecraft(Spacecraft* ship);
 void showSpacecraft(const Spacecraft& ship, std::string caption);
 // Prints the ships data to console
 
+void shipCombat(Spacecraft* ship1, Spacecraft* ship2);
+
 const Spacecraft* compareSpeed(const Spacecraft& ship1, const Spacecraft& ship2);
 // Compares the maximum speed of 2 Spacecraft objects. Returns a pointer to the
 // faster object and NULL if the ships speed are the same
@@ -42,7 +44,7 @@ T getInput(std::string prompt);
 int main()
 {
     Spacecraft ship1;
-    Spacecraft ship2("Combat", 0, 520, 180);
+    Spacecraft ship2("Combat", 0, 520, 180, 100, 100, 50, 30, 50);
 
     showSpacecraft(ship1, "Ship 1, default data");
     showSpacecraft(ship2, "\nShip 2, explicit constructor");
@@ -55,8 +57,7 @@ int main()
     }
     catch (std::exception& err)
     {
-        // This block executes when user attempts to enter an invalid heading in 
-        // degrees.
+        // This block executes when user enters data that is out of bounds
         printError(err.what());
         pauseConsole();
     }
@@ -75,6 +76,8 @@ int main()
     {
         printError("\nShips are the same speed");
     }
+
+    shipCombat(&ship2, &ship1);
 
     return 0;
 }
@@ -106,11 +109,18 @@ void defineSpacecraft(Spacecraft* ship)
 {
     std::cout << "\nEnter ship attributes" << std::endl;
     std::string type = getInput<std::string>("Enter ship type: ");
-    double speed = getInput<double>("Enter ships current speed: ");
     double maxSpeed = getInput<double>("Enter ships max speed: ");
-    double direction = getInput<double>("Enter ships current heading in degrees: ");
+    double speed = getInput<double>("Enter ships current speed: ");
+    double direction = getInput<double>("Enter ships direction(0 - 360): ");
+    int maxHealth = getInput<int>("Enter ships maximum health (0 - 100): ");
+    int currentHealth = getInput<int>("Enter current health: ");
+    int ammoCapacity = getInput<int>("Enter ammo capcaity (0 - 50): ");
+    int weaponDamage = getInput<int>("Enter weapons damage (0 - 30): ");
+    int currentAmmo = getInput<int>("Enter current ammo reserves: ");
 
-    ship->type(type).speed(speed).maxSpeed(maxSpeed).direction(direction);
+    *ship = Spacecraft(type, speed, maxSpeed, direction, maxHealth, 
+                       currentHealth, ammoCapacity, weaponDamage, currentAmmo);
+
     return;
 }
 
@@ -118,6 +128,24 @@ void showSpacecraft(const Spacecraft& ship, std::string caption)
 {
     std::cout << caption << std::endl;
     std::cout << ship;
+    return;
+}
+
+void shipCombat(Spacecraft* ship1, Spacecraft* ship2)
+{
+    std::cout << '\n'<< ship1->getType() << " ship engages " << ship2->getType()
+              << " ship in combat\n" << std::endl;
+    pauseConsole();
+    ship1->shoot(*ship2);
+    if(ship2->getCurrentHealth() <= 0)
+    {
+        std::cout << ship2->getType() << " ship was destroyed!" << std::endl;
+    }
+    else
+    {
+        showSpacecraft(*ship1, "Ship 1 status after combat");
+        showSpacecraft(*ship2, "Ship 2 status after combat");
+    }
     return;
 }
 

@@ -142,13 +142,13 @@ private:
 
 };
 
-struct invalid_speed : public std::exception
+struct invalid_data : public std::exception
 {
     const char* error;
 
-    invalid_speed() : error("Invalid value for speed") {}
+    invalid_data() : error("Invalid datat provided, out of bounds") {}
 
-    invalid_speed(const char* msg) : error(msg) {}
+    invalid_data(const char* msg) : error(msg) {}
 
     const char* what() const throw ()
     {
