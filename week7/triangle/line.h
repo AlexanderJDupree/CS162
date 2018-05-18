@@ -24,8 +24,6 @@ public:
     Line(const Point& point1, const Point& point2);
 
     Line(const int& x1, const int& y1, const int& x2, const int& y2);
-
-    ~Line() {}
     
     //Accessors
     const Point& point1() const;

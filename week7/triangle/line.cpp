@@ -21,7 +21,6 @@ const Point& Line::point2() const
     return m_point2;
 }
 
-
 // Mutators
 Line* Line::point1(const Point& point)
 {

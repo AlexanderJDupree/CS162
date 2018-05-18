@@ -28,7 +28,12 @@ Point* Point::y(int y)
 }
 
 // Operator Overloads
-bool Point::operator == (const Point& point)
+bool Point::operator==(const Point& point) const
 {
-    return point.x() == x1 && point.y() == y1;
+    return x1 == point.x() && y1 == point.y();
+}
+
+bool Point::operator!=(const Point& point) const
+{
+    return !(*this == point);
 }

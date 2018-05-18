@@ -31,7 +31,8 @@ public:
     Point* y(int y);
 
     // Operator Overloads
-    bool operator==(const Point& point);
+    bool operator==(const Point& point) const;
+    bool operator!=(const Point& point) const;
 
 private:
 
