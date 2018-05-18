@@ -24,8 +24,7 @@
             "label" : "Build Program",
             "type" : "shell",
             "command" : "g++",
-            "args" : [ "-g", "~/CS162/week7/triangle/point.cpp", "~/CS162/week7/triangle/line.cpp", 
-                       "~/CS162/week7/triangle/triangleTest.cpp", "-o", "~/CS162/week7/triangle/main", "-Wall"],
+            "args" : ["-std=c++11", "${workspaceFolder}/week7/triangle/Catch2.o", "${workspaceFolder}/week7/triangle/tests.cpp", "-o", "${workspaceFolder}/week7/triangle/main"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
