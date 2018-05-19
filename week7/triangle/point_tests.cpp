@@ -31,14 +31,14 @@ SCENARIO("Constructing point objects", "[point], [constructors]")
 
     GIVEN("A Point initialzed to specific values")
     {
-        const int x = 5;
-        const int y = 2;
-        Point point(x, y);
+        const int X = 5;
+        const int Y = 2;
+        Point point(X, Y);
         
         THEN("The X and Y values match the initializer values")
         {
-            REQUIRE(point.x() == x);
-            REQUIRE(point.y() == y);
+            REQUIRE(point.x() == X);
+            REQUIRE(point.y() == Y);
         }
     }
 }
@@ -94,7 +94,7 @@ SCENARIO("Using Mutators to set the X and Y values for Point", "[point], [mutato
 
         GIVEN("The values of A and B in sequence")
         {
-            WHEN("Chained mutators are used to set X and Y to A and B")
+            WHEN("Chained mutators are used to set X, Y to A, B")
             {
                 const int A = 5;
                 const int B = 4;
@@ -111,7 +111,7 @@ SCENARIO("Using Mutators to set the X and Y values for Point", "[point], [mutato
     }
 }
 
-SCENARIO("Given two Point objects", "[point], [comparison], [equality]")
+SCENARIO("Compare the equality of two point objects", "[point], [comparison], [equality]")
 {
     Point point1;
     Point point2;
@@ -130,9 +130,9 @@ SCENARIO("Given two Point objects", "[point], [comparison], [equality]")
 
         THEN("The two points are no longer equal")
         {
-            REQUIRE(point1 != point2);
+            REQUIRE(point1 != point2); 
         }
-    }
-
+    } 
+    
 }
 ///////////////////////////////// END POINT TESTS //////////////////////////////

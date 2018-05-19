@@ -2,6 +2,9 @@
 
 #include "line.h"
 
+// STATIC CONSTANT MEMBER
+const double Line::UNDEFINED = std::numeric_limits<double>::max();
+
 Line::Line() : m_point1(Point()), m_point2(Point()) {}
 
 Line::Line(const Point& point1, const Point& point2) 
@@ -47,15 +50,36 @@ Line* Line::point2(const int& x, const int& y)
 }
 
 // Member functions
-float Line::slope()
+double Line::slope() const
 {
-    float slope = m_point2.y() - m_point2.y() / 
-                  static_cast<float>(m_point2.x() - m_point1.x());
+    float denominator = m_point2.x() - m_point1.x();
+    if (denominator == 0)
+    {
+        return UNDEFINED;
+    }
+
+    float numerator = m_point2.y() - m_point1.y();
+
+    double slope = numerator / denominator;
+
     return slope;
 }
 
+double Line::length() const
+{
+    // TODO add overflow handling
+    double length = sqrt((pow(m_point2.x() - m_point1.x(), 2) 
+                         + pow(m_point2.y() - m_point1.y(), 2)));
+    return length;
+}
+
 // Operator Overloads
-bool Line::operator == (const Line& line)
+bool Line::operator == (const Line& line) const
 {
     return m_point1 == line.point1() && m_point2 == line.point2();
+}
+
+bool Line::operator != (const Line& line) const
+{
+    return !(*this == line);
 }

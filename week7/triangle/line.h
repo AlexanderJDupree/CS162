@@ -13,6 +13,9 @@
 #ifndef LINE_H
 #define LINE_H
 
+#include <exception>
+#include <limits>
+#include <cmath>
 #include "point.h"
 
 class Line
@@ -37,15 +40,20 @@ public:
     Line* point2(const int& x, const int& y);
 
     // Member functions
-    float slope();
+    double slope() const;
+    double length() const;
+
     
     // Operator Overloads
-    bool operator == (const Line& line);
+    bool operator == (const Line& line) const;
+    bool operator != (const Line& line) const;
 
 private:
 
     Point m_point1;
     Point m_point2;
+
+    static const double UNDEFINED;
 
 };
 
