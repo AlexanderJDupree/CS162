@@ -110,7 +110,7 @@ SCENARIO("Using Inspectors to access lines point members", "[line], [inspectors]
     }
 }
 
-SCENARIO("Using Mutators to change the value of member Point objects")
+SCENARIO("Using Mutators to change the value of member Point objects", "[line], [mutators]")
 {
     GIVEN("A default line and points A and B")
     {
@@ -200,13 +200,21 @@ SCENARIO("Evaluating the length of a line", "[line], [length], [distance]")
     GIVEN("A line initialized to points A and B")
     {
         const int x1 = 5, y1 = 5, x2 = 2, y2 = 1;
+        double distance = sqrt((pow((x2 - x1), 2) + pow((y2 - y1), 2)));
 
         Line line(x1, y1, x2, y2);
 
         THEN("The length of the line can be determined with Pythagoreas theorum")
         {
-            double distance = sqrt((pow((x2 - x1), 2) + pow((y2 - y1), 2)));
             REQUIRE(line.length() == distance);
+            AND_WHEN("The points are switched")
+            {
+                line = Line(x2, y2, x1, y1);
+                THEN("The distance will still be the same")
+                {
+                    REQUIRE(line.length() == distance);
+                }
+            }
         }
     }
     GIVEN("A line initialized to only one point, A")
