@@ -25,11 +25,10 @@
             "type" : "shell",
             "command" : "g++",
             "args" : ["-std=c++11", "-g", 
-                      "${workspaceFolder}/week7/triangle/point.cpp",  
-                      "${workspaceFolder}/week7/triangle/line.cpp", 
-                      "${workspaceFolder}/week7/triangle/triangle.cpp", 
-                      "${workspaceFolder}/week7/triangle/triangleDriver.cpp", 
-                      "-o", "${workspaceFolder}/week7/triangle/main", "-Wall"],
+                      "${workspaceFolder}/week7/library/music.cpp",  
+                      "${workspaceFolder}/week7/library/book.cpp", 
+                      "${workspaceFolder}/week7/library/libraryDriver.cpp", 
+                      "-o", "${workspaceFolder}/week7/library/main", "-Wall"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
