@@ -33,7 +33,7 @@ Line* Line::point1(const Point& point)
 
 Line* Line::point1(const int& x, const int& y)
 {
-    m_point1.x(x)->y(y);
+    m_point1.setX(x)->setY(y);
     return this;
 }
 
@@ -45,20 +45,20 @@ Line* Line::point2(const Point& point)
 
 Line* Line::point2(const int& x, const int& y)
 {
-    m_point2.x(x)->y(y);
+    m_point2.setX(x)->setY(y);
     return this;
 }
 
 // Member functions
 double Line::slope() const
 {
-    float denominator = m_point2.x() - m_point1.x();
+    float denominator = m_point2.getX() - m_point1.getX();
     if (denominator == 0)
     {
         return UNDEFINED;
     }
 
-    float numerator = m_point2.y() - m_point1.y();
+    float numerator = m_point2.getY() - m_point1.getY();
 
     double slope = numerator / denominator;
 
@@ -68,8 +68,8 @@ double Line::slope() const
 double Line::length() const
 {
     // TODO add overflow handling
-    double length = sqrt((pow(m_point2.x() - m_point1.x(), 2) 
-                         + pow(m_point2.y() - m_point1.y(), 2)));
+    double length = sqrt((pow(m_point2.getX() - m_point1.getX(), 2) 
+                         + pow(m_point2.getY() - m_point1.getY(), 2)));
     return length;
 }
 

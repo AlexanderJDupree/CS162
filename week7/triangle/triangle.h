@@ -1,13 +1,14 @@
 /*******************************************************************************
 * File: triangle.h
-*
+
 * Description: 
-*
+
+* Attributes and Methods: 
+    
+
 * Author: Alexander DuPree
-* 
-* Compiler: GNU GCC 5.4.0
-*
-* Date: 2018 - 05 - 20
+
+* Date: 2018 - 05 - 21
 *******************************************************************************/
 
 #ifndef TRIANGLE_H
@@ -64,8 +65,5 @@ private:
     void adjustLines();
 
 };
-
-
-
 
 #endif // TRIANGLE_H

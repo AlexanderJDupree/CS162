@@ -10,10 +10,11 @@
 * Date: 2018 - 05 - 17
 *******************************************************************************/
 
-//#include "triangle.h"
+#include "triangle.h"
 #include <iostream>
+using namespace std;
 
-/* int main()
+int main()
 {
     Triangle myTri;
     Triangle yourTri(3,4,8,4,3,9);
@@ -46,4 +47,4 @@
         cout << "The triangles are not the same.\n\n";
 
     return 0;
-} */
+}

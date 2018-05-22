@@ -24,14 +24,38 @@
             "label" : "Build Program",
             "type" : "shell",
             "command" : "g++",
-            "args" : ["-std=c++11", "-g", "${workspaceFolder}/week7/triangle/tests_main.o", "${workspaceFolder}/week7/triangle/point_tests.cpp", 
-                      "${workspaceFolder}/week7/triangle/line_tests.cpp", "${workspaceFolder}/week7/triangle/point.cpp",  
-                      "${workspaceFolder}/week7/triangle/line.cpp", "${workspaceFolder}/week7/triangle/triangle_tests.cpp",
-                      "${workspaceFolder}/week7/triangle/triangle.cpp", "-o", "${workspaceFolder}/week7/triangle/main", "-Wall"],
+            "args" : ["-std=c++11", "-g", 
+                      "${workspaceFolder}/week7/triangle/point.cpp",  
+                      "${workspaceFolder}/week7/triangle/line.cpp", 
+                      "${workspaceFolder}/week7/triangle/triangle.cpp", 
+                      "${workspaceFolder}/week7/triangle/triangleDriver.cpp", 
+                      "-o", "${workspaceFolder}/week7/triangle/main", "-Wall"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
             }
+        },
+        {
+            "label" : "Build Tests",
+            "type" : "shell",
+            "command" : "g++",
+            "args" : ["-std=c++11", "-g", 
+                      "${workspaceFolder}/week7/triangle/tests/tests_main.o", 
+                      "${workspaceFolder}/week7/triangle/tests/point_tests.cpp", 
+                      "${workspaceFolder}/week7/triangle/tests/line_tests.cpp", 
+                      "${workspaceFolder}/week7/triangle/tests/triangle_tests.cpp",
+                      "${workspaceFolder}/week7/triangle/point.cpp",  
+                      "${workspaceFolder}/week7/triangle/line.cpp", 
+                      "${workspaceFolder}/week7/triangle/triangle.cpp", 
+                      "-o", "${workspaceFolder}/week7/triangle/tests/unitTests", "-Wall"],
+        },
+        {
+            "label" : "Build test_main",
+            "type" : "shell",
+            "command" : "g++",
+            "args" : ["-std=c++11", "-c", 
+                      "${workspaceFolder}/week7/triangle/tests/tests_main.cpp", 
+                      "-o", "${workspaceFolder}/week7/triangle/tests/tests_main.o", "-Wall"],
         }
     ]
 }

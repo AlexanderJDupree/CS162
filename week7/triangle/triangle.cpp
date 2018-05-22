@@ -53,21 +53,21 @@ const Line& Triangle::getSide3() const
 // Mutators
 Triangle* Triangle::setPoint1(const int& x, const int& y)
 {
-    point1.x(x)->y(y);
+    point1.setX(x)->setY(y);
     adjustLines();
     return this;
 }
 
 Triangle* Triangle::setPoint2(const int& x, const int& y)
 {
-    point2.x(x)->y(y);
+    point2.setX(x)->setY(y);
     adjustLines();
     return this;
 }
 
 Triangle* Triangle::setPoint3(const int& x, const int& y)
 {
-    point3.x(x)->y(y);
+    point3.setX(x)->setY(y);
     adjustLines();
     return this;
 }

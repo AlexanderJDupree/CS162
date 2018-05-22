@@ -23,12 +23,12 @@ public:
     Point(const int& x, const int& y);
 
     // Inspectors
-    const int& x() const;
-    const int& y() const;
+    const int& getX() const;
+    const int& getY() const;
 
     // Mutators
-    Point* x(int x);
-    Point* y(int y);
+    Point* setX(int x);
+    Point* setY(int y);
 
     // Operator Overloads
     bool operator==(const Point& point) const;
@@ -36,8 +36,8 @@ public:
 
 private:
 
-    int x1;
-    int y1;
+    int x;
+    int y;
 
 };
 
