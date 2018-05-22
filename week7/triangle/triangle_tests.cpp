@@ -70,40 +70,135 @@ SCENARIO("Using Triangles mutator functions to modify member values", "[triangle
 
         WHEN("The mutator function is called to set point1 to Point A")
         {
+            Line oldSide1 = triangle.getSide1() ;
+            Line oldSide3 = triangle.getSide3();
             triangle.setPoint1(A.x(), A.y());
 
             THEN("triangles point1 equals point A")
             {
                 REQUIRE(triangle.getPoint1() == A);
             }
+            AND_THEN("The lengths of side 1 and 3 have been adjusted")
+            {
+                REQUIRE(oldSide1 != triangle.getSide1());
+                REQUIRE(oldSide3 != triangle.getSide3());
+            }
 
         }
         WHEN("The mutator function is called to set point2 to Point B")
         {
+            Line oldSide2 = triangle.getSide2() ;
+            Line oldSide1 = triangle.getSide1();
             triangle.setPoint2(B.x(), B.y());
 
             THEN("triangles point2 equals point B")
             {
                 REQUIRE(triangle.getPoint2() == B);
             }
+            AND_THEN("The lengths of side 1 and 3 have been adjusted")
+            {
+                REQUIRE(oldSide2 != triangle.getSide2());
+                REQUIRE(oldSide1 != triangle.getSide1());
+            }
+
 
         }
         WHEN("The mutator function is called to set point2 to Point C")
         {
+            Line oldSide2 = triangle.getSide2() ;
+            Line oldSide3 = triangle.getSide3();
             triangle.setPoint3(C.x(), C.y());
 
             THEN("triangles point2 equals point B")
             {
                 REQUIRE(triangle.getPoint3() == C);
             }
+            AND_THEN("The lengths of side 1 and 3 have been adjusted")
+            {
+                REQUIRE(oldSide2 != triangle.getSide2());
+                REQUIRE(oldSide3 != triangle.getSide3());
+            }
         }
     }
 }
 
-SCENARIO("Comparing two triangle objects for equality")
+SCENARIO("Comparing two triangle objects for equality", "[triangle], [comparison], [equality]")
 {
     GIVEN("Two triangle objects with equal side lengths")
     {
+        Triangle triangle1;
+        Triangle triangle2;
 
+        THEN("The triangles are equal")
+        {
+            REQUIRE(triangle1 == triangle2);
+        }
+    }
+    GIVEN("Two triangle objects with different side lengths")
+    {
+        Triangle triangle1;
+        Triangle triangle2(1, 3, 5, 4, 14, 11);
+
+        THEN("The triangles are NOT equal")
+        {
+            REQUIRE(triangle1 != triangle2);
+        }
+    }
+    GIVEN("Two congruent triangles")
+    {
+        Triangle triangle1(0, 2, 2, 0, 4, 0);
+
+        WHEN("triangle 2 is reflected over the x axis")
+        {
+            Triangle triangle2(0, 2, -2, 0, -4, 0);
+            THEN("The triangles are still equal")
+            {
+                REQUIRE(triangle1 == triangle2);
+            }
+        }
+        WHEN("triangle 2 is reflected over the Y axis")
+        {
+            Triangle triangle2(0, -2, 2, 0, 4, 0);
+            THEN("The triangles are still equal")
+            {
+                REQUIRE(triangle1 == triangle2);
+            }
+        }
+        WHEN("triangle 2 is built in reverse order")
+        {
+            Triangle triangle2(4, 0, 2, 0, 0, 2);
+            THEN("The triangles are still equal")
+            {
+                REQUIRE(triangle1 == triangle2);
+            }
+        }
+    }
+}
+
+SCENARIO("Testing a triangle is a right triangle", "[triangle], [right], [bool]")
+{
+    GIVEN("An Isoceles Right Triangle")
+    {
+        Triangle triangle(0, 0, 0, 4, 4, 0);
+        THEN("The triangle returns true because it is a right triangle")
+        {
+            REQUIRE(triangle.rightTriangle() == true);
+        }
+    }
+    GIVEN("A non-right triangle")
+    {
+        Triangle triangle(0, 2, -2, 0, -4, 0);
+        THEN("The triangle returns false, it is not a right triangle")
+        {
+            REQUIRE(triangle.rightTriangle() == false);
+        }
+    }
+    GIVEN("A scalene right triangle")
+    {
+        Triangle triangle(20, 20, 32, 14, 40, 30);
+        THEN("The triangle returns true, it is a right triangle")
+        {
+            REQUIRE(triangle.rightTriangle() == true);
+        }
     }
 }

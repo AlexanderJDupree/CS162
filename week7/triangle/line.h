@@ -47,6 +47,8 @@ public:
     // Operator Overloads
     bool operator == (const Line& line) const;
     bool operator != (const Line& line) const;
+    bool operator < (const Line& line) const;
+    bool operator > (const Line& line) const;
 
 private:
 

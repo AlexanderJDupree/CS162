@@ -76,10 +76,21 @@ double Line::length() const
 // Operator Overloads
 bool Line::operator == (const Line& line) const
 {
-    return m_point1 == line.point1() && m_point2 == line.point2();
+    return length() == line.length();
 }
 
 bool Line::operator != (const Line& line) const
 {
     return !(*this == line);
 }
+
+bool Line::operator < (const Line& line) const
+{
+    return length() < line.length();
+}
+
+bool Line::operator > (const Line& line) const
+{
+    return !(*this < line);
+}
+

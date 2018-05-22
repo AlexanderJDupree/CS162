@@ -14,6 +14,8 @@
 #define TRIANGLE_H
 
 #include <exception>
+#include <algorithm>
+#include <vector>
 #include "line.h"
 
 
@@ -32,10 +34,21 @@ public:
     const Point& getPoint2() const;
     const Point& getPoint3() const;
 
+    const Line& getSide1() const;
+    const Line& getSide2() const;
+    const Line& getSide3() const;
+
     // Mutators
     Triangle* setPoint1(const int& x, const int& y);
     Triangle* setPoint2(const int& x, const int& y);
     Triangle* setPoint3(const int& x, const int& y);
+
+    // Member functions
+    bool rightTriangle();
+
+    // Operator Overloads
+    bool operator == (const Triangle& triangle) const;
+    bool operator != (const Triangle& triangle) const;
 
 private:
 
@@ -43,8 +56,12 @@ private:
     Point point2;
     Point point3;
 
-    // Validators
-    bool validate() const;
+    Line side1;
+    Line side2;
+    Line side3;
+
+    // Sub-routine
+    void adjustLines();
 
 };
 

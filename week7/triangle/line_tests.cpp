@@ -147,15 +147,20 @@ SCENARIO("Comparing two line objects for equality", "[line], [comparison], [equa
             REQUIRE(line1 == line2);
         }
 
-        WHEN("Either of line 1's member points value is changed")
+        WHEN("Either of line 1's member points are set to 0,0")
         {
-            line1.point1(B);
+            line1.point1(0,0)->point2(0,0);
 
             THEN("line 1 is no longer equal to line 2")
             {
                 REQUIRE(line1 != line2);
             }
+            AND_THEN("line 2 is greater than line 1")
+            {
+                REQUIRE(line2 > line1);
+            }
         }
+
     }
 }
 
