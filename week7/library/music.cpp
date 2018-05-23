@@ -5,7 +5,7 @@
 Music::Music() : title(""), artist(""), numTracks(0) {}
 
 Music::Music(std::string title, std::string artist, int numTracks)
-    : title(title), artist(artist), numTracks(0) {}
+    : title(title), artist(artist), numTracks(numTracks) {}
 
 const std::string& Music::getTitle() const
 {
@@ -30,7 +30,12 @@ Music* Music::setTitle(const std::string& title)
 
 Music* Music::setArtist(const std::string& artist)
 {
-    this->title = artist;
+    this->artist = artist;
     return this;
 }
 
+Music* Music::setNumTracks(const int& numTracks)
+{
+    this->numTracks = numTracks;
+    return this;
+}
