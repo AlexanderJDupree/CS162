@@ -328,6 +328,7 @@ void defineSpacecraft(Spacecraft* ship)
     double direction = getInput<double>("Enter ships current heading in degrees: ");
 
     ship->type(type).speed(speed).maxSpeed(maxSpeed).direction(direction);
+
     return;
 }
 

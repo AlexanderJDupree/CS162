@@ -39,7 +39,9 @@
             "command" : "g++",
             "args" : ["-std=c++11", "-g", 
                       "${workspaceFolder}/tests/tests_main.o", 
-                      "-o", "${workspaceFolder}/tests", "-Wall"],
+                      "${workspaceFolder}/week8/grades/grades.cpp", 
+                      "${workspaceFolder}/week8/grades/testGrades.cpp", 
+                      "-o", "${workspaceFolder}/week8/grades/testGrades", "-Wall"],
         },
         {
             "label" : "Build test_main",
