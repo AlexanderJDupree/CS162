@@ -44,7 +44,7 @@ public:
     Course& operator=(Course course);
 
     // Swap functionality for assignment operator
-    friend void swap(Course newCourse, Course oldCourse) throw() // nothrow
+    friend void swap(Course& newCourse, Course& oldCourse) throw() // nothrow
     {
         // Enables Argument dependent lookup
         using std::swap;

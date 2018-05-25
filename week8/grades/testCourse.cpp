@@ -13,7 +13,7 @@
 #include <cstring>
 #include <iostream>
 #include "catch.hpp"
-#include "Course.h"
+#include "course.h"
 
 SCENARIO("Test Course class constructors", "[course], [constructors]")
 {
@@ -130,10 +130,37 @@ SCENARIO("Test Course class assignment operators")
             
             THEN("The two course objects are equal")
             {
-                //std::cout << courseDefault.name() << " " << courseExplicit.name() << std::endl;
-                //REQUIRE(strcmp(courseDefault.name(), courseExplicit.name()) == 0);
-                // REQUIRE(strcmp(courseDefault.ID(), courseExplicit.ID()) == 0);
-                // REQUIRE(courseDefault.grades() == courseExplicit.grades());
+                REQUIRE(strcmp(courseDefault.name(), courseExplicit.name()) == 0);
+                REQUIRE(strcmp(courseDefault.ID(), courseExplicit.ID()) == 0);
+                REQUIRE(courseDefault.grades() == courseExplicit.grades());
+            }
+
+            AND_WHEN("We reassign the initialized object to the new courseDefault")
+            {
+                courseExplicit = courseDefault;
+
+                THEN("The data is not changed")
+                {
+                    REQUIRE(strcmp(courseDefault.name(), courseExplicit.name()) == 0);
+                    REQUIRE(strcmp(courseDefault.ID(), courseExplicit.ID()) == 0);
+                    REQUIRE(courseDefault.grades() == courseExplicit.grades());
+                }
+            }
+        }
+    }
+    GIVEN("An initialized Course object")
+    {
+        Course course("Pre-Calculus", "MTH112", Gradebook(6, 100));
+
+        WHEN("The initialized object is reassigned to a default object")
+        {
+            course = Course();
+
+            THEN("course now mirrors the defaults values")
+            {
+                REQUIRE(course.grades().empty());
+                REQUIRE_FALSE(course.name());
+                REQUIRE_FALSE(course.ID());
             }
         }
     }

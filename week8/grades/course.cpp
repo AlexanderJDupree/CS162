@@ -1,9 +1,7 @@
 // Implementation for Grade class
 
 #include <cstring>
-#include "Course.h"
-
-
+#include "course.h"
 
 Course::Course() : courseName(NULL), courseID(NULL) {}
 
@@ -82,11 +80,9 @@ Course* Course::grades(const Gradebook& courseGrades)
 // Operator Overloads
 Course& Course::operator=(Course course)
 {
-    /* There is a whole story behind the justification for this method in this 
-     fashion. After intense research behind dynamic memory and the copy-and-swap
-     idiom I found this to be best practice for dealing with Classes that handle 
-     dynamic memory. 
-     https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom */
+    /*Copy and swap idiom is used for defining our copy assignment. Heres a link
+      to a great write up about why we need to define assignment like this
+     https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom*/
 
     swap(*this, course);
 

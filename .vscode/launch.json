@@ -9,14 +9,14 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/dupre/Desktop/CS162/week8/grades/testCourse",
+            "program": "${workspaceFolder}/week8/grades/testCourse",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath" : "C:/TDM-GCC-64/bin",
+            "miDebuggerPath" : "/usr/bin/gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
