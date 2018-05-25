@@ -17,12 +17,20 @@ class Grades
 {
 public:
     Grades();
+    
+    Grades(const char* courseName, const char* courseNumber, 
+                                   const unsigned int grades[]);
 
-    const char* getCourseName() const { return courseName; } 
+    const char* getCourseName() const; 
+    const char* getCourseNumber() const;
+    const unsigned int* getGrades() const;
+
 
 private:
 
-    const char* courseName;
+    char* courseName;
+    char* courseNumber;
+    unsigned int* grades;
 
 };
 
