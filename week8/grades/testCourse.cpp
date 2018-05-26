@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <numeric>
 #include "catch.hpp"
 #include "course.h"
 
@@ -162,6 +163,28 @@ SCENARIO("Test Course class assignment operators")
                 REQUIRE_FALSE(course.name());
                 REQUIRE_FALSE(course.ID());
             }
+        }
+    }
+}
+
+SCENARIO("Testing Friend functions for highest and averages for the grades", "[course], [friend]")
+{
+    GIVEN("A Course object initialized to an array of grades")
+    {
+        Gradebook grades = {25, 35, 45, 55, 66, 88, 99};
+        Course course("Calculus", "MTH251", grades);
+
+        THEN("The findHighest friend function returns the highest value")
+        {
+            REQUIRE(findHighest(course) == 99);
+        }
+        THEN("The average grade will be the sum of the array / number of grades")
+        {
+            double sum = std::accumulate(grades.begin(), grades.end(), 0.0);
+            double average = sum / grades.size();
+
+            REQUIRE(findMean(course) == average);
+
         }
     }
 }

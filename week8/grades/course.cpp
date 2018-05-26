@@ -88,3 +88,41 @@ Course& Course::operator=(Course course)
 
     return *this;
 }
+
+void swap(Course& newCourse, Course& oldCourse) throw() // nothrow
+{
+        // Enables Argument dependent lookup
+        using std::swap;
+
+        // Swaps pointers, reassigns ownership
+        swap(newCourse.courseName, oldCourse.courseName);
+        swap(newCourse.courseID, oldCourse.courseID);
+        newCourse.courseGrades.swap(oldCourse.courseGrades);
+        return;
+}
+
+// Friend functions
+unsigned int findHighest(const Course& course)
+{
+    unsigned int highest = 0;
+    Gradebook::const_iterator it;
+    for (it = course.courseGrades.begin(); it != course.courseGrades.end(); ++it)
+    {
+        if(*it > highest)
+        {
+            highest = *it;
+        }
+    }
+    return highest;
+}
+
+double findMean(const Course& course)
+{
+    double sum = 0;
+    Gradebook::const_iterator it;
+    for (it = course.courseGrades.begin(); it != course.courseGrades.end(); ++it)
+    {
+        sum += *it;
+    }
+    return sum / course.courseGrades.size();
+}
