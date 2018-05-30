@@ -40,9 +40,10 @@
             "args" : ["-std=c++11", "-g", 
                       "-I", "${workspaceFolder}/tests/",
                       "${workspaceFolder}/tests/tests_main.o", 
-                      "${workspaceFolder}/week8/grades/course.cpp", 
-                      "${workspaceFolder}/week8/grades/testCourse.cpp", 
-                      "-o", "${workspaceFolder}/week8/grades/testCourse", "-Wall",
+                      "${workspaceFolder}/week8/gameObjects/gameObject.cpp", 
+                      "${workspaceFolder}/week8/gameObjects/character.cpp", 
+                      "${workspaceFolder}/week8/gameObjects/testObjects.cpp", 
+                      "-o", "${workspaceFolder}/week8/gameObjects/testObject", "-Wall",
                       ],
         },
         {
