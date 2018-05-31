@@ -2,23 +2,13 @@
 #include <cstring>
 #include "gameObject.h"
 
-GameObject::GameObject() : label(new char('\0')), maxInstances(0) {}
+GameObject::GameObject() : label(""), maxInstances(0) {}
 
-GameObject::GameObject(const char* label, const unsigned int& maxInstances)
-{
-    this->label = new char[sizeof(label) + 1];
-    std::strcpy(this->label, label);
-
-    this->maxInstances = maxInstances;
-}
-
-GameObject::~GameObject()
-{
-    delete [] label;
-}
+GameObject::GameObject(const std::string& label, const unsigned int& maxInstances)
+    : label(label), maxInstances(maxInstances) {}
 
 // Inspectors
-const char* GameObject::Label() const
+const std::string& GameObject::Label() const
 {
     return label;
 }
@@ -29,11 +19,9 @@ const unsigned int GameObject::MaxInstance() const
 }
 
 // Mutators
-GameObject* GameObject::Label(const char* label)
+GameObject* GameObject::Label(const std::string& label)
 {
-    delete [] this->label;
-    this->label = new char[sizeof(label) + 1];
-    std::strcpy(this->label, label);
+    this->label = label;
     return this;
 }
 

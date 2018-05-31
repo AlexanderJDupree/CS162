@@ -1,12 +1,14 @@
 /*******************************************************************************
-* File: character.h
-*
-* Description: 
-*
+* Class: Character 
+
+* Description: Character class inherits from GameObject and adds special 
+               methods for inspecting, mutating, and constructing the name, 
+               health, and SuperPower members.
+
 * Author: Alexander DuPree
-* 
+ 
 * Compiler: GNU GCC 5.4.0
-*
+
 * Date: 2018 - 05 - 26
 *******************************************************************************/
 
@@ -21,23 +23,24 @@ public:
 
     Character();
 
-    Character(const char* label, unsigned int instances, const char* name,
-              const char* superPower, unsigned int health);
+    Character(const std::string& label, unsigned int instances, 
+              const std::string& name, const std::string& superPower, 
+              unsigned int health);
 
     // Inspectors
-    const char* Name() const;
-    const char* SuperPower() const;
+    const std::string& Name() const;
+    const std::string& SuperPower() const;
     const unsigned int& Health() const;
 
     // Mutators
-    Character* Name(const char* name);
-    Character* SuperPower(const char* superPower);
+    Character* Name(const std::string& name);
+    Character* SuperPower(const std::string& superPower);
     Character* Health(const unsigned int& health);
 
 private:
 
-    char* name;
-    char* superPower;
+    std::string name;
+    std::string superPower;
     unsigned int health;
 
 };
