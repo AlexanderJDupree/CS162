@@ -17,9 +17,14 @@ int main()
 {
     LinkedList list;
 
+    std::cout << list.empty() << std::endl;
+    list.push_back(6);
+
+    std::cout << list.empty() << std::endl;
     list.insert(4);
     list.insert(5);
     
+    std::cout << list.empty() << std::endl;
     std::cout << list.size() << std::endl;
 
 

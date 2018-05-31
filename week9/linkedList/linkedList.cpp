@@ -48,6 +48,11 @@ size_t LinkedList::size() const
     return count;
 }
 
+bool LinkedList::empty() const
+{
+    return !(head);
+}
+
 void LinkedList::printList()
 {
     nodePtr temp = head;

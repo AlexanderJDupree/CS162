@@ -22,10 +22,13 @@ public:
 
     ~LinkedList();
 
+    // Modifiers
     LinkedList* push_back(int data);
     LinkedList* insert(int data);
 
+    // Capacity
     size_t size() const;
+    bool empty() const;
 
     void printList();
 
