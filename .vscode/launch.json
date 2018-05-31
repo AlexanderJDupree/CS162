@@ -9,7 +9,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/week8/grades/testCourse",
+            "program": "${workspaceFolder}/week9/examples/main",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",

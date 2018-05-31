@@ -25,11 +25,10 @@
             "type" : "shell",
             "command" : "g++",
             "args" : ["-g", 
-                      "${workspaceFolder}/week8/gameObjects/wk8_gameObjects_adupree/gameObject.cpp",  
-                      "${workspaceFolder}/week8/gameObjects/wk8_gameObjects_adupree/character.cpp", 
-                      "${workspaceFolder}/week8/gameObjects/wk8_gameObjects_adupree/collectible.cpp", 
-                      "${workspaceFolder}/week8/gameObjects/wk8_gameObjects_adupree/gameObjectDriver.cpp", 
-                      "-o", "${workspaceFolder}/week8/gameObjects/wk8_gameObjects_adupree/main", "-Wall"],
+                      "${workspaceFolder}/week9/linkedList/node.cpp",  
+                      "${workspaceFolder}/week9/linkedList/linkedList.cpp",  
+                      "${workspaceFolder}/week9/linkedList/linkedListDriver.cpp",  
+                      "-o", "${workspaceFolder}/week9/linkedList/main", "-Wall"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
