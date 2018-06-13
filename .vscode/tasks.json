@@ -25,9 +25,10 @@
             "type" : "shell",
             "command" : "g++",
             "args" : ["-g", 
-                      "${workspaceFolder}/week9/reviewProgram/intSet.cpp",  
-                      "${workspaceFolder}/week9/reviewProgram/intSetDriver.cpp",  
-                      "-o", "${workspaceFolder}/week9/reviewProgram/main", "-Wall"],
+                      "${workspaceFolder}/week10/linkedList2/node.cpp",  
+                      "${workspaceFolder}/week10/linkedList2/linkedList.cpp",  
+                      "${workspaceFolder}/week10/linkedList2/linkedListDriver.cpp",  
+                      "-o", "${workspaceFolder}/week10/linkedList2/main", "-Wall"],
             "group" : {
                 "kind" : "build",
                 "isDefault" : true
